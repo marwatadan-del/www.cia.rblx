@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central Intelligence Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1628;
+  --deep: #05090f;
+  --red: #b8161b;
+  --red-dark: #7a0c10;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: rgba(201,168,76,0.15);
+  --white: #f2eee4;
+  --off-white: #e8e2d6;
+  --gray: #7a7a7a;
+  --gray-light: #b8b2a8;
+  --steel: #111e2e;
+  --steel-mid: #182436;
+  --steel-light: #1e2d40;
+  --border: rgba(255,255,255,0.06);
+  --border-gold: rgba(201,168,76,0.2);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Libre Baskerville',Georgia,serif;
+  background:var(--deep);
+  color:var(--white);
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--deep); }
+::-webkit-scrollbar-thumb { background:var(--gold); opacity:0.5; }
+
+/* ── CLASSIFICATION BAR ── */
+.class-bar {
+  background:var(--red);
+  text-align:center;
+  padding:7px;
+  font-family:'Courier Prime',monospace;
+  font-size:11px;
+  letter-spacing:4px;
+  color:var(--white);
+  font-weight:700;
+  position:sticky;
+  top:0;
+  z-index:200;
+}
+
+/* ── HEADER ── */
+header {
+  background:var(--navy);
+  border-bottom:2px solid var(--gold);
+  position:sticky;
+  top:29px;
+  z-index:150;
+}
+.header-sub {
+  background:var(--deep);
+  padding:5px 0;
+  text-align:center;
+  font-family:'Courier Prime',monospace;
+  font-size:10px;
+  letter-spacing:3px;
+  color:rgba(201,168,76,0.6);
+  text-transform:uppercase;
+  border-bottom:1px solid var(--border-gold);
+}
+.header-main {
+  max-width:1280px;
+  margin:0 auto;
+  padding:16px 40px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+.seal { width:64px; height:64px; flex-shrink:0; }
+.agency-title { flex:1; }
+.agency-title h1 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:26px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--white);
+  line-height:1;
+}
+.agency-title p {
+  font-family:'Courier Prime',monospace;
+  font-size:10px;
+  color:var(--gold);
+  letter-spacing:2px;
+  margin-top:4px;
+}
+
+/* ── NAV ── */
+nav { display:flex; align-items:stretch; }
+.nav-item {
+  position:relative;
+}
+.nav-link {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--gray-light);
+  text-decoration:none;
+  padding:10px 18px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  border-left:1px solid var(--border);
+  cursor:pointer;
+  transition:color 0.2s, background 0.2s;
+  white-space:nowrap;
+}
+.nav-link:hover, .nav-link.active { color:var(--gold); background:rgba(201,168,76,0.07); }
+.nav-link.active { border-bottom:2px solid var(--gold); }
+.nav-arrow { font-size:8px; opacity:0.5; }
+.dropdown {
+  position:absolute;
+  top:100%;
+  left:0;
+  background:var(--navy);
+  border:1px solid var(--border-gold);
+  border-top:2px solid var(--gold);
+  min-width:220px;
+  display:none;
+  z-index:200;
+}
+.nav-item:hover .dropdown { display:block; }
+.dropdown a {
+  display:block;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--gray-light);
+  padding:10px 18px;
+  text-decoration:none;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background 0.15s, color 0.15s;
+}
+.dropdown a:hover { background:var(--steel-light); color:var(--gold); }
+
+/* ── PAGE SYSTEM ── */
+.page { display:none; animation:fadeIn 0.3s ease; }
+.page.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── HERO VARIANTS ── */
+.hero {
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+}
+.hero-lg { height:640px; }
+.hero-sm { height:320px; }
+.hero-bg-base {
+  position:absolute;
+  inset:0;
+  background:var(--navy);
+}
+.hero-grid-overlay {
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);
+  background-size:70px 70px;
+}
+.hero-scan {
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.1) 3px,rgba(0,0,0,0.1) 4px);
+  pointer-events:none;
+}
+.hero-vignette {
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse 70% 90% at 30% 50%,transparent 30%,rgba(5,9,15,0.7) 100%);
+}
+.hero-content { position:relative; max-width:1280px; margin:0 auto; padding:0 40px; width:100%; }
+.eyebrow {
+  font-family:'Courier Prime',monospace;
+  font-size:10px;
+  letter-spacing:4px;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--gold); }
+.hero h2 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:76px;
+  line-height:0.9;
+  text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:24px;
+}
+.hero h2 em { font-style:normal; color:var(--gold); }
+.hero-sm h2 { font-size:52px; margin-bottom:12px; }
+.hero-sub {
+  font-size:16px;
+  line-height:1.75;
+  color:var(--gray-light);
+  max-width:540px;
+}
+.hero-rule {
+  width:60px;
+  height:3px;
+  background:var(--red);
+  margin:20px 0;
+}
+
+/* ── LAYOUT UTILS ── */
+.container { max-width:1280px; margin:0 auto; padding:0 40px; }
+.section { padding:80px 0; }
+.section-sm { padding:50px 0; }
+.section-label {
+  font-family:'Courier Prime',monospace;
+  font-size:10px;
+  letter-spacing:4px;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-label::after { content:''; flex:1; height:1px; background:var(--border-gold); max-width:80px; }
+.section-title {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:52px;
+  line-height:1;
+  text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:28px;
+}
+.section-title span { color:var(--gold); }
+.body-text { font-size:15px; line-height:1.85; color:var(--gray-light); }
+.body-text + .body-text { margin-top:16px; }
+
+/* ── BAND ── */
+.band { margin:0; padding:80px 0; position:relative; }
+.band-steel { background:var(--steel); }
+.band-deep { background:var(--deep); }
+.band-navy { background:var(--navy); }
+.band::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent 60%);
+}
+
+/* ── GRID HELPERS ── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.g-3070 { display:grid; grid-template-columns:3fr 2fr; gap:60px; }
+.g-6040 { display:grid; grid-template-columns:6fr 4fr; gap:60px; }
+.align-start { align-items:start; }
+
+/* ── CARDS ── */
+.card {
+  background:var(--steel-light);
+  border:1px solid var(--border);
+  padding:32px;
+  transition:border-color 0.25s;
+  position:relative;
+}
+.card:hover { border-color:var(--border-gold); }
+.card-gold { border-left:3px solid var(--gold); }
+.card-red { border-top:2px solid var(--red); }
+.card-top-gold { border-top:2px solid var(--gold); }
+.card h3 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:20px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--white);
+  margin-bottom:10px;
+}
+.card h4 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:16px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+.card p { font-size:13px; line-height:1.75; color:var(--gray-light); }
+.tag {
+  display:inline-block;
+  font-family:'Courier Prime',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid var(--border-gold);
+  padding:3px 8px;
+  margin-bottom:14px;
+}
+.num-bg {
+  position:absolute;
+  top:12px; right:20px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:72px;
+  color:rgba(201,168,76,0.07);
+  line-height:1;
+  pointer-events:none;
+}
+
+/* ── MISSION STRIP ── */
+.mission-strip {
+  background:var(--red);
+  padding:18px 40px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.mission-strip::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(90deg,transparent,transparent 50px,rgba(0,0,0,0.07) 50px,rgba(0,0,0,0.07) 51px);
+}
+.mission-strip p {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:17px;
+  font-weight:700;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--white);
+  position:relative;
+}
+
+/* ── TIMELINE ── */
+.timeline { position:relative; padding-left:56px; margin-top:48px; }
+.timeline::before {
+  content:'';
+  position:absolute;
+  left:18px; top:0; bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+}
+.tl-item {
+  position:relative;
+  margin-bottom:40px;
+  padding-bottom:40px;
+  border-bottom:1px solid var(--border);
+}
+.tl-item:last-child { border-bottom:none; margin-bottom:0; }
+.tl-item::before {
+  content:'';
+  position:absolute;
+  left:-43px; top:7px;
+  width:10px; height:10px;
+  border:2px solid var(--gold);
+  background:var(--deep);
+  transform:rotate(45deg);
+}
+.tl-year {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:40px;
+  color:var(--gold);
+  line-height:1;
+  margin-bottom:6px;
+}
+.tl-item h3 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:20px;
+  text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:10px;
+}
+.tl-item p { font-size:14px; line-height:1.8; color:var(--gray-light); max-width:640px; }
+
+/* ── STAT BLOCKS ── */
+.stats-row {
+  display:flex;
+  gap:0;
+  border-top:1px solid var(--border-gold);
+  padding-top:32px;
+  margin-top:32px;
+}
+.stat { flex:1; padding-right:32px; border-right:1px solid var(--border); }
+.stat:last-child { border-right:none; padding-right:0; padding-left:32px; }
+.stat:first-child { padding-left:0; }
+.stat-num {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:52px;
+  color:var(--gold);
+  line-height:1;
+}
+.stat-label {
+  font-family:'Courier Prime',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--gray);
+  margin-top:4px;
+}
+
+/* ── QUOTE ── */
+.quote-band {
+  background:var(--navy);
+  padding:70px 40px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.quote-band::before {
+  content:'"';
+  position:absolute;
+  font-family:'Libre Baskerville',serif;
+  font-size:500px;
+  color:rgba(201,168,76,0.03);
+  top:-80px; left:40px;
+  line-height:1;
+  pointer-events:none;
+}
+.quote-band blockquote {
+  font-family:'Libre Baskerville',serif;
+  font-style:italic;
+  font-size:26px;
+  line-height:1.6;
+  color:var(--white);
+  max-width:800px;
+  margin:0 auto 18px;
+  position:relative;
+}
+.quote-band cite {
+  font-family:'Courier Prime',monospace;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  font-style:normal;
+}
+
+/* ── TABLE ── */
+.data-table { width:100%; border-collapse:collapse; margin-top:32px; }
+.data-table thead tr {
+  border-bottom:2px solid var(--gold);
+}
+.data-table th {
+  font-family:'Courier Prime',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--gold);
+  padding:10px 16px;
+  text-align:left;
+}
+.data-table tbody tr {
+  border-bottom:1px solid var(--border);
+  transition:background 0.15s;
+}
+.data-table tbody tr:hover { background:var(--steel-light); }
+.data-table td { padding:16px; font-size:13px; color:var(--gray-light); vertical-align:top; }
+.data-table td:first-child {
+  font-family:'Courier Prime',monospace;
+  color:var(--gold);
+  font-size:11px;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.data-table td strong { font-family:'Barlow Condensed',sans-serif; font-size:16px; letter-spacing:1px; text-transform:uppercase; color:var(--white); }
+
+/* ── BADGE ── */
+.badge {
+  font-family:'Courier Prime',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:3px 10px;
+  border:1px solid;
+  display:inline-block;
+  white-space:nowrap;
+}
+.badge-green { color:#4caf50; border-color:rgba(76,175,80,0.35); }
+.badge-gold { color:var(--gold); border-color:var(--border-gold); }
+.badge-red { color:var(--red); border-color:rgba(184,22,27,0.35); }
+.badge-gray { color:var(--gray); border-color:rgba(122,122,122,0.35); }
+
+/* ── LIST STYLED ── */
+.styled-list { list-style:none; margin-top:16px; }
+.styled-list li {
+  font-size:14px;
+  color:var(--gray-light);
+  padding:8px 0 8px 20px;
+  position:relative;
+  border-bottom:1px solid var(--border);
+  line-height:1.6;
+}
+.styled-list li:last-child { border-bottom:none; }
+.styled-list li::before {
+  content:'▸';
+  position:absolute;
+  left:0;
+  color:var(--gold);
+  font-size:10px;
+}
+
+/* ── VALUE GRID ── */
+.values-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:48px; }
+.value-item {
+  background:var(--steel-light);
+  padding:44px 36px;
+  position:relative;
+  overflow:hidden;
+}
+.value-roman {
+  position:absolute;
+  top:12px; left:20px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:90px;
+  color:rgba(255,255,255,0.03);
+  line-height:1;
+  pointer-events:none;
+}
+.value-item h3 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:22px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:14px;
+  position:relative;
+}
+.value-item p { font-size:13px; line-height:1.85; color:var(--gray-light); position:relative; }
+
+/* ── CAREER TRACKS ── */
+.track {
+  background:var(--steel-light);
+  border:1px solid var(--border);
+  padding:32px;
+  position:relative;
+  overflow:hidden;
+}
+.track::after {
+  content:'';
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:2px;
+  background:var(--gold);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.3s;
+}
+.track:hover::after { transform:scaleX(1); }
+.track-code {
+  font-family:'Courier Prime',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  color:var(--gold);
+  margin-bottom:12px;
+}
+.track h3 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:22px;
+  text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:10px;
+}
+.track p { font-size:13px; line-height:1.7; color:var(--gray-light); margin-bottom:16px; }
+.track ul { list-style:none; }
+.track ul li {
+  font-family:'Courier Prime',monospace;
+  font-size:11px;
+  letter-spacing:1px;
+  color:var(--gray);
+  padding:5px 0 5px 14px;
+  position:relative;
+  border-bottom:1px solid var(--border);
+}
+.track ul li:last-child { border-bottom:none; }
+.track ul li::before { content:'▸'; position:absolute; left:0; color:var(--gold); font-size:9px; }
+
+/* ── NEWS CARDS ── */
+.news-card {
+  background:var(--steel-light);
+  border-bottom:1px solid var(--border);
+  padding:28px;
+}
+.news-card .category {
+  font-family:'Courier Prime',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--red);
+  margin-bottom:8px;
+}
+.news-card h3 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:20px;
+  text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:8px;
+  line-height:1.1;
+}
+.news-card p { font-size:13px; line-height:1.7; color:var(--gray-light); }
+.news-card .meta {
+  font-family:'Courier Prime',monospace;
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--gray);
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+}
+
+/* ── DIVIDER ── */
+.rule { border:none; border-top:1px solid var(--border); margin:0; }
+.rule-gold { border-color:var(--border-gold); }
+
+/* ── LEADERSHIP CARD ── */
+.leader {
+  background:var(--steel-light);
+  border-top:2px solid var(--gold);
+  padding:32px;
+}
+.leader-rank {
+  font-family:'Courier Prime',monospace;
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+.leader h3 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:22px;
+  text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:4px;
+}
+.leader .title {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:14px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--gray);
+  margin-bottom:16px;
+}
+.leader p { font-size:13px; line-height:1.75; color:var(--gray-light); }
+
+/* ── FOOTER ── */
+footer {
+  background:var(--deep);
+  border-top:2px solid var(--gold);
+  padding:60px 0 36px;
+}
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:60px; margin-bottom:48px; }
+.footer-brand .logo-text {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:18px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:12px;
+}
+.footer-brand p { font-size:12px; line-height:1.8; color:var(--gray); }
+.footer-col h4 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:16px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--border-gold);
+}
+.footer-col ul { list-style:none; }
+.footer-col ul li {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:14px;
+  letter-spacing:1px;
+  color:var(--gray);
+  padding:5px 0;
+  cursor:pointer;
+  transition:color 0.2s;
+}
+.footer-col ul li:hover { color:var(--white); }
+.footer-bottom {
+  border-top:1px solid var(--border);
+  padding-top:24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.footer-bottom p {
+  font-family:'Courier Prime',monospace;
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--gray);
+}
+
+/* ── FAQ ── */
+.faq-item {
+  border-bottom:1px solid var(--border);
+  padding:24px 0;
+}
+.faq-item:first-child { border-top:1px solid var(--border); }
+.faq-q {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:18px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--white);
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.faq-q::before { content:'Q.'; color:var(--gold); font-size:14px; }
+.faq-a { font-size:14px; line-height:1.8; color:var(--gray-light); padding-left:28px; }
+
+/* ── INTEL CYCLE DIAGRAM ── */
+.cycle-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:48px; }
+.cycle-item {
+  background:var(--steel-light);
+  padding:36px 28px;
+  position:relative;
+  overflow:hidden;
+}
+.cycle-num {
+  position:absolute;
+  top:16px; right:20px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:80px;
+  color:rgba(201,168,76,0.06);
+  line-height:1;
+}
+.cycle-item h3 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:20px;
+  text-transform:uppercase;
+  color:var(--white);
+  margin:14px 0 10px;
+}
+.cycle-item p { font-size:13px; line-height:1.75; color:var(--gray-light); }
+
+/* ── DOC ROWS ── */
+.doc-row {
+  display:grid;
+  grid-template-columns:110px 1fr auto;
+  align-items:center;
+  gap:28px;
+  padding:20px 24px;
+  background:var(--steel-light);
+  border-bottom:1px solid var(--border);
+  transition:background 0.15s;
+}
+.doc-row:hover { background:var(--steel-mid); }
+.doc-date { font-family:'Courier Prime',monospace; font-size:11px; color:var(--gold); letter-spacing:1px; }
+.doc-info h4 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:16px;
+  font-weight:600;
+  text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:3px;
+}
+.doc-info p { font-size:12px; color:var(--gray); line-height:1.4; }
+
+/* ── DIVISION GRID ── */
+.div-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:48px; }
+.div-item {
+  background:var(--steel-light);
+  padding:36px;
+  position:relative;
+  overflow:hidden;
+  transition:background 0.2s;
+}
+.div-item:hover { background:var(--steel-mid); }
+.div-abbr {
+  position:absolute;
+  top:16px; right:24px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:52px;
+  color:rgba(201,168,76,0.08);
+  letter-spacing:-2px;
+  line-height:1;
+}
+.div-item h3 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:20px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+.div-item p { font-size:13px; line-height:1.75; color:var(--gray-light); max-width:400px; }
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  background:var(--navy);
+  border-bottom:1px solid var(--border);
+  padding:10px 40px;
+}
+.breadcrumb-inner {
+  max-width:1280px;
+  margin:0 auto;
+  font-family:'Courier Prime',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--gray);
+  text-transform:uppercase;
+}
+.breadcrumb-inner span { color:var(--gold); cursor:pointer; }
+.breadcrumb-inner span:hover { text-decoration:underline; }
+
+/* ── RESPONSIVE adjustments ── */
+@media(max-width:1024px){
+  .g3,.g4,.values-grid,.cycle-grid { grid-template-columns:1fr 1fr; }
+  .footer-grid { grid-template-columns:1fr 1fr; gap:32px; }
+  nav { display:none; }
+}
+@media(max-width:700px){
+  .g2,.g3,.g4,.values-grid,.cycle-grid,.g-3070,.g-6040,.div-grid { grid-template-columns:1fr; }
+  .hero h2 { font-size:44px; }
+  .section-title { font-size:36px; }
+}
+</style>
+</head>
+<body>
+
+<div class="class-bar">UNCLASSIFIED // FOR PUBLIC RELEASE // APPROVED FOR OPEN-SOURCE DISTRIBUTION</div>
+
+<header>
+  <div class="header-sub">An Official Website of the United States Government &nbsp;·&nbsp; Intelligence Community Member &nbsp;·&nbsp; Est. 1947</div>
+  <div class="header-main">
+    <div class="seal">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+        <circle cx="50" cy="50" r="48" stroke="#c9a84c" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="42" stroke="#c9a84c" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.6"/>
+        <circle cx="50" cy="50" r="34" stroke="#c9a84c" stroke-width="0.3" opacity="0.3"/>
+        <path d="M14 52 Q28 36 50 42 Q72 36 86 52" stroke="#c9a84c" stroke-width="2.5" fill="none"/>
+        <path d="M16 57 Q32 45 50 48 Q68 45 84 57" stroke="#c9a84c" stroke-width="1.2" fill="none" opacity="0.5"/>
+        <circle cx="50" cy="34" r="9" fill="#c9a84c" opacity="0.18"/>
+        <path d="M46 30 L50 24 L54 30 L60 32 L55 37 L57 44 L50 40 L43 44 L45 37 L40 32 Z" fill="#c9a84c" opacity="0.4"/>
+        <path d="M42 50 L42 62 Q50 67 58 62 L58 50 Z" fill="#c9a84c" opacity="0.2"/>
+        <rect x="46" y="52" width="8" height="10" fill="#c9a84c" opacity="0.15"/>
+        <text x="50" y="76" text-anchor="middle" fill="#c9a84c" font-size="8" font-family="serif" opacity="0.7">★ ★ ★</text>
+      </svg>
+    </div>
+    <div class="agency-title">
+      <h1>Central Intelligence Agency</h1>
+      <p>United States of America &mdash; Office of the Director of Central Intelligence</p>
+    </div>
+    <nav>
+      <div class="nav-item">
+        <div class="nav-link active" onclick="showPage('home')">Home</div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-link" onclick="showPage('about')">About <span class="nav-arrow">▾</span></div>
+        <div class="dropdown">
+          <a onclick="showPage('about')">About the CIA</a>
+          <a onclick="showPage('mission')">Mission & Vision</a>
+          <a onclick="showPage('values')">Core Values</a>
+          <a onclick="showPage('leadership')">Leadership</a>
+          <a onclick="showPage('oversight')">Oversight & Review</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-link" onclick="showPage('intelligence')">Intelligence <span class="nav-arrow">▾</span></div>
+        <div class="dropdown">
+          <a onclick="showPage('intelligence')">What We Do</a>
+          <a onclick="showPage('divisions')">Directorates</a>
+          <a onclick="showPage('cycle')">Intelligence Cycle</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-link" onclick="showPage('history')">History <span class="nav-arrow">▾</span></div>
+        <div class="dropdown">
+          <a onclick="showPage('history')">Full History</a>
+          <a onclick="showPage('directors')">Directors of the CIA</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-link" onclick="showPage('careers')">Careers <span class="nav-arrow">▾</span></div>
+        <div class="dropdown">
+          <a onclick="showPage('careers')">Overview</a>
+          <a onclick="showPage('careers-tracks')">Career Tracks</a>
+          <a onclick="showPage('careers-students')">Students & Interns</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-link" onclick="showPage('newsroom')">Newsroom <span class="nav-arrow">▾</span></div>
+        <div class="dropdown">
+          <a onclick="showPage('newsroom')">Press Releases</a>
+          <a onclick="showPage('publications')">Publications</a>
+          <a onclick="showPage('worldfactbook')">World Factbook</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-link" onclick="showPage('foia')">FOIA</div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════
+     HOME PAGE
+═══════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+  <!-- HERO -->
+  <section class="hero hero-lg">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Intelligence Briefing — 2024</div>
+      <h2>Protecting<br><em>America's</em><br>Security</h2>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">The Central Intelligence Agency collects, analyzes, and disseminates foreign intelligence to assist the President and senior policymakers in making decisions relating to the national security of the United States.</p>
+      <div class="stats-row" style="margin-top:36px;padding-top:28px;">
+        <div class="stat"><div class="stat-num">1947</div><div class="stat-label">Year Founded</div></div>
+        <div class="stat"><div class="stat-num">140+</div><div class="stat-label">Countries Monitored</div></div>
+        <div class="stat"><div class="stat-num">5</div><div class="stat-label">Directorates</div></div>
+        <div class="stat"><div class="stat-num">17</div><div class="stat-label">IC Members</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mission-strip">
+    <p>Collection &nbsp;·&nbsp; Analysis &nbsp;·&nbsp; Covert Action &nbsp;·&nbsp; Counterintelligence &nbsp;·&nbsp; Cyber Operations</p>
+  </div>
+
+  <!-- WHAT WE DO -->
+  <div class="band band-steel">
+    <div class="container">
+      <div class="g-6040 align-start">
+        <div>
+          <div class="section-label">The Agency</div>
+          <h2 class="section-title">Who We Are</h2>
+          <p class="body-text">The CIA is a civilian foreign intelligence service of the federal government of the United States, tasked with gathering, processing, and analyzing national security information from around the world. As a principal member of the United States Intelligence Community (IC), we report to the Director of National Intelligence.</p>
+          <p class="body-text" style="margin-top:16px;">Unlike the FBI, which is a domestic security service, the CIA has no law enforcement function and is primarily focused on overseas intelligence gathering. We work alongside partner agencies across the IC and with allied services worldwide.</p>
+          <p class="body-text" style="margin-top:16px;">The CIA operates from its headquarters in Langley, Virginia, with officers stationed worldwide. Our work spans collection, analysis, counterintelligence, covert action, and the research and development of technical capabilities.</p>
+        </div>
+        <div>
+          <div class="section-label">Quick Links</div>
+          <div class="card card-gold" style="margin-bottom:12px;">
+            <h4>Mission & Vision</h4>
+            <p>Learn about the foundational purpose and strategic direction that guides every CIA officer.</p>
+          </div>
+          <div class="card card-gold" style="margin-bottom:12px;">
+            <h4>Intelligence Directorates</h4>
+            <p>Explore the five directorates and mission centers that form the Agency's organizational structure.</p>
+          </div>
+          <div class="card card-gold" style="margin-bottom:12px;">
+            <h4>Career Opportunities</h4>
+            <p>Discover how your skills and expertise can serve the nation's most critical intelligence mission.</p>
+          </div>
+          <div class="card card-gold">
+            <h4>FOIA & Declassified Records</h4>
+            <p>Access publicly released documents and submit Freedom of Information Act requests.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PILLARS -->
+  <div class="band band-deep">
+    <div class="container">
+      <div class="section-label">Core Functions</div>
+      <h2 class="section-title">Four Pillars of <span>Intelligence</span></h2>
+      <div class="g4" style="margin-top:40px;">
+        <div class="card card-top-gold">
+          <div class="tag">Pillar I</div>
+          <h3>Collection</h3>
+          <p>Gathering intelligence through HUMINT, SIGINT, GEOINT, and open-source methods from foreign entities, governments, and non-state actors worldwide.</p>
+        </div>
+        <div class="card card-top-gold">
+          <div class="tag">Pillar II</div>
+          <h3>Analysis</h3>
+          <p>All-source analysts synthesize vast streams of information into finished intelligence products — assessments, estimates, and daily briefings for senior officials.</p>
+        </div>
+        <div class="card card-top-gold">
+          <div class="tag">Pillar III</div>
+          <h3>Covert Action</h3>
+          <p>At presidential direction, the CIA conducts special activities to influence political, military, and economic conditions abroad in support of U.S. foreign policy.</p>
+        </div>
+        <div class="card card-top-gold">
+          <div class="tag">Pillar IV</div>
+          <h3>Counterintelligence</h3>
+          <p>Identifying, understanding, and neutralizing the intelligence activities of foreign powers, terrorist organizations, and other adversaries targeting the United States.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED NEWS -->
+  <div class="band band-navy">
+    <div class="container">
+      <div class="section-label">Latest from the Agency</div>
+      <h2 class="section-title">News & <span>Publications</span></h2>
+      <div class="g2" style="margin-top:40px;">
+        <div class="news-card" style="border-top:3px solid var(--gold); border-bottom:none;">
+          <div class="category">Featured Report</div>
+          <h3>Annual Threat Assessment of the U.S. Intelligence Community — 2024</h3>
+          <p>This assessment reflects the collective insights of the Intelligence Community, identifying the most direct, severe, and enduring threats to U.S. national security, including strategic competition, transnational terrorism, and emerging technology threats.</p>
+          <div class="meta">Director of National Intelligence · March 2024 · UNCLASSIFIED</div>
+        </div>
+        <div>
+          <div class="news-card">
+            <div class="category">Cyber Intelligence</div>
+            <h3>State-Sponsored Threats to Critical Infrastructure</h3>
+            <p>An overview of foreign cyber operations targeting energy, finance, and communications sectors.</p>
+            <div class="meta">January 2024 · UNCLASSIFIED</div>
+          </div>
+          <div class="news-card">
+            <div class="category">Director's Statement</div>
+            <h3>Remarks Before the SSCI on Global Security Environment</h3>
+            <p>Director's testimony on the current threat landscape and Agency priorities.</p>
+            <div class="meta">February 2024 · UNCLASSIFIED</div>
+          </div>
+          <div class="news-card">
+            <div class="category">Counterproliferation</div>
+            <h3>WMD Proliferation: Global Assessment</h3>
+            <p>Tracking state and non-state efforts to acquire weapons of mass destruction.</p>
+            <div class="meta">December 2023 · UNCLASSIFIED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-band">
+    <blockquote>"And ye shall know the truth, and the truth shall make you free."</blockquote>
+    <cite>John 8:32 — Inscribed in the Original Headquarters Building Lobby, Langley, Virginia</cite>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ABOUT PAGE
+═══════════════════════════════════════════════ -->
+<div id="page-about" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">About the Agency</div>
+      <h2>The <em>CIA</em></h2>
+      <p class="hero-sub">Understanding America's premier foreign intelligence service.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / About the CIA</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="g-6040 align-start">
+        <div>
+          <div class="section-label">Overview</div>
+          <h2 class="section-title">About the <span>Central Intelligence Agency</span></h2>
+          <p class="body-text">The Central Intelligence Agency (CIA) is an independent civilian intelligence agency of the United States federal government. It is one of the principal members of the United States Intelligence Community (IC) and is under the direction of the Director of National Intelligence. The CIA's primary mission is to collect, analyze, evaluate, and disseminate foreign intelligence to assist the President and senior U.S. government policymakers in making decisions relating to national security.</p>
+          <p class="body-text" style="margin-top:16px;">The CIA additionally serves as the national manager for human source intelligence (HUMINT) and coordinates HUMINT activities across the IC. It also conducts covert action at the direction of the President. The CIA does not make policy; it is an agency that provides intelligence and analysis to those who do.</p>
+          <p class="body-text" style="margin-top:16px;">Unlike the FBI, which is a domestic security service, the CIA has no law enforcement function and is mainly focused on intelligence gathering overseas. Its collection activities are focused on foreign governments, corporations, and individuals. Information is gathered through human intelligence (HUMINT), signals intelligence (SIGINT), imagery intelligence (IMINT), and open-source intelligence (OSINT).</p>
+          <p class="body-text" style="margin-top:16px;">The CIA is headquartered at the George Bush Center for Intelligence in Langley, Virginia, a few miles west of Washington, D.C. Its employees are subject to security clearance requirements, and many work under classified programs. The Agency maintains offices and stations throughout the world.</p>
+        </div>
+        <div>
+          <div class="section-label">At a Glance</div>
+          <div class="card card-gold" style="margin-bottom:16px;">
+            <h4>Founded</h4>
+            <p>September 18, 1947, by the National Security Act of 1947. Predecessor organization: the Office of Strategic Services (OSS), established 1942.</p>
+          </div>
+          <div class="card card-gold" style="margin-bottom:16px;">
+            <h4>Headquarters</h4>
+            <p>George Bush Center for Intelligence, Langley (McLean), Virginia, United States.</p>
+          </div>
+          <div class="card card-gold" style="margin-bottom:16px;">
+            <h4>Budget</h4>
+            <p>Classified. Part of the National Intelligence Program (NIP). The aggregate intelligence budget was approximately $90 billion (FY2023, ODNI disclosed figure).</p>
+          </div>
+          <div class="card card-gold" style="margin-bottom:16px;">
+            <h4>Workforce</h4>
+            <p>Exact number classified. Publicly estimated at 21,000–27,000 employees across all functions worldwide.</p>
+          </div>
+          <div class="card card-gold">
+            <h4>Parent Organization</h4>
+            <p>Office of the Director of National Intelligence (ODNI). The CIA Director reports to the President through the DNI and the National Security Council.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:60px;">
+        <div class="section-label">Organizational Reporting</div>
+        <h3 class="section-title" style="font-size:36px;">Chain of <span>Command</span></h3>
+        <div class="g3" style="margin-top:32px;">
+          <div class="card">
+            <div class="tag">Level I</div>
+            <h3>The President</h3>
+            <p>The CIA's ultimate authority. The President receives the President's Daily Brief (PDB), directs covert action through signed Findings, and appoints the Director of Central Intelligence.</p>
+          </div>
+          <div class="card">
+            <div class="tag">Level II</div>
+            <h3>National Security Council</h3>
+            <p>The principal forum for senior-level national security policy deliberation. The NSC coordinates the CIA's role in implementing national security objectives and reviews covert action programs.</p>
+          </div>
+          <div class="card">
+            <div class="tag">Level III</div>
+            <h3>Director of National Intelligence</h3>
+            <p>Oversees the entire 17-member Intelligence Community. The CIA Director reports to the DNI and is a member of the National Security Council.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     MISSION & VISION PAGE
+═══════════════════════════════════════════════ -->
+<div id="page-mission" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Strategic Direction</div>
+      <h2>Mission &amp;<br><em>Vision</em></h2>
+      <p class="hero-sub">The foundational purpose and strategic aspirations of the Central Intelligence Agency.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / <span onclick="showPage('about')">About</span> / Mission & Vision</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="g2 align-start" style="gap:80px;">
+        <div>
+          <div class="section-label">Mission Statement</div>
+          <h2 class="section-title">Our <span>Mission</span></h2>
+          <div style="background:var(--navy);border-left:4px solid var(--gold);padding:36px;margin-bottom:32px;">
+            <p style="font-family:'Libre Baskerville',serif;font-size:20px;line-height:1.7;color:var(--white);font-style:italic;">"We are the nation's first line of defense. We accomplish what others cannot accomplish and go where others cannot go."</p>
+          </div>
+          <p class="body-text">The CIA's mission is to preempt threats and further U.S. national security objectives by collecting intelligence that matters, producing objective all-source analysis, conducting effective covert action as directed by the President, and safeguarding the secrets that help keep our nation safe.</p>
+          <p class="body-text" style="margin-top:16px;">This mission is carried out by dedicated men and women who serve with exceptional courage, integrity, and professionalism. The CIA exists to provide the President and senior national security policymakers with the information they need to make sound decisions about U.S. foreign policy, national security, and military operations.</p>
+
+          <div style="margin-top:40px;">
+            <div class="section-label">Mission Objectives</div>
+            <ul class="styled-list">
+              <li>Collect intelligence through human sources and other appropriate means, with collection focused on adversaries, failing states, and threats to U.S. interests abroad.</li>
+              <li>Correlate, evaluate, and disseminate intelligence from all sources and conduct all-source analysis to produce finished intelligence for the President and senior policymakers.</li>
+              <li>Provide overall direction for and coordination of the collection of national intelligence outside the United States through human sources by elements of the Intelligence Community.</li>
+              <li>Conduct counterintelligence activities outside the United States and, in coordination with other IC members, conduct counterintelligence activities within the United States.</li>
+              <li>Conduct covert action activities approved by the President and coordinate covert action activities of other agencies, when authorized by the President.</li>
+              <li>Perform such other functions and duties related to intelligence affecting the national security as the President or the Director of National Intelligence may direct.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="section-label">Vision Statement</div>
+          <h2 class="section-title">Our <span>Vision</span></h2>
+          <div style="background:var(--navy);border-left:4px solid var(--red);padding:36px;margin-bottom:32px;">
+            <p style="font-family:'Libre Baskerville',serif;font-size:20px;line-height:1.7;color:var(--white);font-style:italic;">"An Agency that makes a difference by delivering superior intelligence and covert capabilities to those who need them, when they need them."</p>
+          </div>
+          <p class="body-text">The CIA envisions a world in which the United States is better protected from threats, better informed about global developments, and better positioned to advance its national interests through the effective use of intelligence.</p>
+          <p class="body-text" style="margin-top:16px;">Our vision encompasses not only what we do for the nation, but how we do it — with integrity, objectivity, and service. The Agency aspires to be a model organization: one that attracts and retains the best and brightest talent, invests in innovation, and operates with the highest ethical standards.</p>
+
+          <div style="margin-top:40px;">
+            <div class="section-label">Strategic Priorities</div>
+            <div class="card card-gold" style="margin-bottom:12px;">
+              <h4>Strategic Competition</h4>
+              <p>Counter the strategic challenges posed by China and Russia across all domains — political, economic, military, technological, and informational.</p>
+            </div>
+            <div class="card card-gold" style="margin-bottom:12px;">
+              <h4>Counterterrorism</h4>
+              <p>Disrupt, degrade, and defeat terrorist organizations that threaten the U.S. homeland and American interests abroad.</p>
+            </div>
+            <div class="card card-gold" style="margin-bottom:12px;">
+              <h4>Counterproliferation</h4>
+              <p>Prevent the spread of weapons of mass destruction and the delivery systems that could threaten the U.S. and its allies.</p>
+            </div>
+            <div class="card card-gold">
+              <h4>Digital Modernization</h4>
+              <p>Leverage emerging technologies — artificial intelligence, cloud computing, and advanced analytics — to gain decisive intelligence advantages.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-band">
+    <blockquote>"The work of intelligence is never done. Every day, our officers around the world take risks that most Americans will never know about — to protect freedoms they will never lose."</blockquote>
+    <cite>Central Intelligence Agency — Langley, Virginia</cite>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     CORE VALUES PAGE
+═══════════════════════════════════════════════ -->
+<div id="page-values" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Guiding Principles</div>
+      <h2>Core <em>Values</em></h2>
+      <p class="hero-sub">The principles that guide every CIA officer in fulfilling our mission.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / <span onclick="showPage('about')">About</span> / Core Values</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">Our Principles</div>
+      <h2 class="section-title">What We <span>Stand For</span></h2>
+      <p class="body-text" style="max-width:700px;">These values are not aspirational — they are the lived reality of what it means to serve as a CIA officer. They guide decisions made in the field, in the analysis center, in the laboratory, and in every interaction with our partners, the public, and each other.</p>
+      <div class="values-grid">
+        <div class="value-item"><div class="value-roman">I</div><h3>Integrity</h3><p>We adhere to the highest standards of lawful conduct. We are truthful and forthright. We honor the public trust placed in us and resist arrogance. We acknowledge our mistakes and learn from them. We never misrepresent facts to policymakers, even when the truth is unwelcome.</p></div>
+        <div class="value-item"><div class="value-roman">II</div><h3>Excellence</h3><p>We hold ourselves to the highest standards and demand the same from each other. We provide superior intelligence support, continuously improving our methods and products. We invest in our people, recognizing that excellence begins with talented, well-trained officers who are given the tools they need to succeed.</p></div>
+        <div class="value-item"><div class="value-roman">III</div><h3>Courage</h3><p>We face hard truths and difficult challenges with confidence and resolve. Physical courage under dangerous conditions and moral courage to speak truth to power — both define the CIA officer. We make difficult decisions in the face of danger, always acting in the interest of our country and its people.</p></div>
+        <div class="value-item"><div class="value-roman">IV</div><h3>Objectivity</h3><p>We seek and speak the truth unvarnished and without bias. Our assessments are based on the weight of evidence and sound analytical judgment, not on what policymakers want to hear. We clearly distinguish between intelligence and policy, never allowing our analysis to be shaped by political considerations.</p></div>
+        <div class="value-item"><div class="value-roman">V</div><h3>Service</h3><p>We dedicate ourselves to the mission — protecting America's security and supporting those who make critical national security decisions. Our work is a calling, not merely a career. We serve with a sense of purpose that transcends personal ambition, understanding that the stakes of our work are extraordinarily high.</p></div>
+        <div class="value-item"><div class="value-roman">VI</div><h3>Teamwork</h3><p>We work as one team, recognizing that our collective effort is greater than the sum of our individual contributions. We collaborate across the Intelligence Community and with international partners. We share information appropriately, subordinate individual interests to mission success, and support each other through the most challenging assignments.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band band-deep">
+    <div class="container">
+      <div class="section-label">The Ethos of Service</div>
+      <h2 class="section-title">What It Means to <span>Serve</span></h2>
+      <div class="g2 align-start" style="gap:60px;">
+        <div>
+          <p class="body-text">To serve in the CIA is to embrace a life of extraordinary commitment. Our officers work in conditions of secrecy, often unable to share the details of their contributions with family and friends. They deploy to some of the most dangerous regions in the world. They make decisions that affect national security with incomplete information and under intense time pressure.</p>
+          <p class="body-text" style="margin-top:16px;">Yet CIA officers also experience the profound satisfaction of knowing their work matters — that the intelligence they collect, the analysis they produce, and the operations they conduct make a tangible difference in protecting the nation and its allies.</p>
+          <p class="body-text" style="margin-top:16px;">The CIA Memorial Wall, inscribed with stars representing officers who gave their lives in service, stands as a solemn testament to the ultimate sacrifice that some have made. As of 2024, 140 stars are carved into the marble wall — each one representing a fallen officer whose name, in many cases, remains classified.</p>
+        </div>
+        <div>
+          <div class="card card-red">
+            <h3>The Memorial Wall</h3>
+            <p>Located in the main lobby of the Original Headquarters Building, the CIA Memorial Wall honors those who gave their lives in service to their country. Stars are carved into the white Alabama marble — one for each employee who died in the line of duty.</p>
+            <p style="margin-top:12px;">The Book of Honor, displayed below the wall, contains the names of those whose identities can be publicly acknowledged. Many entries remain blank — the officer's name classified even in death.</p>
+          </div>
+          <div class="card" style="margin-top:16px;">
+            <h4>Stars on the Wall</h4>
+            <p style="font-family:'Barlow Condensed',sans-serif;font-size:48px;color:var(--gold);font-weight:900;line-height:1;">140+</p>
+            <p>Officers who died in the line of duty since the CIA's founding in 1947.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LEADERSHIP PAGE
+═══════════════════════════════════════════════ -->
+<div id="page-leadership" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Senior Officials</div>
+      <h2>Agency <em>Leadership</em></h2>
+      <p class="hero-sub">The men and women who lead the Central Intelligence Agency.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / <span onclick="showPage('about')">About</span> / Leadership</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">Senior Leadership</div>
+      <h2 class="section-title">Principal <span>Officers</span></h2>
+      <div class="g3" style="margin-top:40px;">
+        <div class="leader"><div class="leader-rank">D/CIA · Director</div><h3>Director of Central Intelligence</h3><div class="title">Presidential Appointee, Senate Confirmed</div><p>The Director of the Central Intelligence Agency is the head of the CIA and is responsible for the Agency's operations, personnel, and budget. The Director reports to the Director of National Intelligence and serves as the principal intelligence advisor on CIA matters to the President and NSC.</p></div>
+        <div class="leader"><div class="leader-rank">DD/CIA · Deputy Director</div><h3>Deputy Director</h3><div class="title">Senior Career Official</div><p>The Deputy Director is the second-ranking official at the CIA. The DDCIA assists the Director in managing the Agency's five directorates and multiple mission centers, and serves as Acting Director during the Director's absence or incapacity.</p></div>
+        <div class="leader"><div class="leader-rank">ExDir · Executive Director</div><h3>Executive Director</h3><div class="title">Chief Operating Officer</div><p>The Executive Director manages the day-to-day operational and administrative functions of the Agency, including budget execution, workforce management, and cross-directorate coordination to ensure mission effectiveness.</p></div>
+        <div class="leader"><div class="leader-rank">GC · General Counsel</div><h3>General Counsel</h3><div class="title">Chief Legal Officer</div><p>The General Counsel provides authoritative legal advice to the Director and senior leadership, ensures CIA activities comply with all applicable laws, executive orders, and presidential directives, and represents the Agency in legal matters.</p></div>
+        <div class="leader"><div class="leader-rank">IG · Inspector General</div><h3>Inspector General</h3><div class="title">Presidential Appointee</div><p>The Inspector General independently oversees CIA activities, conducting audits, investigations, and inspections to detect waste, fraud, and abuse. The IG reports findings to both the Director and Congress, ensuring accountability.</p></div>
+        <div class="leader"><div class="leader-rank">CFO · Chief Financial Officer</div><h3>Chief Financial Officer</h3><div class="title">Senior Career Official</div><p>The CFO manages the CIA's classified budget, financial operations, and resource allocation across all directorates and mission centers, ensuring fiscal integrity and compliance with federal financial management requirements.</p></div>
+      </div>
+
+      <div style="margin-top:60px;">
+        <div class="section-label">Directorate Leadership</div>
+        <h2 class="section-title">Directorate <span>Directors</span></h2>
+        <div class="g2" style="margin-top:32px;gap:16px;">
+          <div class="card card-gold"><h4>Director of Operations (D/DO)</h4><p>Leads the National Clandestine Service, responsible for human intelligence collection and covert action worldwide. Oversees CIA stations and bases across the globe and manages relationships with liaison services.</p></div>
+          <div class="card card-gold"><h4>Director of Analysis (D/DA)</h4><p>Leads the all-source analytical workforce, overseeing the production of the President's Daily Brief and other finished intelligence products. Responsible for analytical tradecraft standards and workforce development.</p></div>
+          <div class="card card-gold"><h4>Director of Science & Technology (D/DS&T)</h4><p>Leads research and development of technical collection systems, data analytics tools, and advanced technologies that provide the United States with intelligence advantages.</p></div>
+          <div class="card card-gold"><h4>Director of Support (D/DS)</h4><p>Oversees administrative, logistical, security, medical, and other support functions that enable CIA operations worldwide. Manages facilities, security programs, and workforce services.</p></div>
+          <div class="card card-gold"><h4>Director of Digital Innovation (D/DDI)</h4><p>Leads the integration of digital technologies, cybersecurity, and artificial intelligence across all CIA mission areas, driving modernization of intelligence collection and analysis capabilities.</p></div>
+          <div class="card card-gold"><h4>Director, Counterterrorism Center (D/CTC)</h4><p>Leads the CIA's Counterterrorism Center, coordinating collection and analysis against terrorist threats worldwide and directing covert action programs targeting terrorist organizations.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     OVERSIGHT PAGE
+═══════════════════════════════════════════════ -->
+<div id="page-oversight" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Accountability</div>
+      <h2>Oversight &amp;<br><em>Review</em></h2>
+      <p class="hero-sub">Robust oversight mechanisms ensure the CIA operates within the law and under democratic accountability.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / <span onclick="showPage('about')">About</span> / Oversight</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="g2 align-start" style="gap:60px;">
+        <div>
+          <div class="section-label">Executive Branch Oversight</div>
+          <h2 class="section-title">How the CIA is <span>Overseen</span></h2>
+          <p class="body-text">The CIA operates under a robust system of oversight involving all three branches of government. This system of checks and balances ensures that the Agency fulfills its mission within the bounds of U.S. law, democratic values, and constitutional principles.</p>
+          <p class="body-text" style="margin-top:16px;">The President provides ultimate direction to the CIA through the National Security Council, executive orders, and presidential findings that authorize covert action. The Director of National Intelligence oversees the CIA within the broader Intelligence Community framework established by the Intelligence Reform and Terrorism Prevention Act of 2004.</p>
+          <div style="margin-top:28px;">
+            <div class="card card-gold" style="margin-bottom:12px;"><h4>National Security Council (NSC)</h4><p>Reviews and approves covert action programs. The NSC Principals and Deputies Committees provide policy-level oversight of CIA activities.</p></div>
+            <div class="card card-gold" style="margin-bottom:12px;"><h4>President's Intelligence Advisory Board (PIAB)</h4><p>An independent executive branch body that advises the President on the quality, quantity, and adequacy of intelligence collection and analysis.</p></div>
+            <div class="card card-gold"><h4>Office of the DNI Inspector General</h4><p>Provides IC-wide oversight of intelligence programs and conducts reviews that cross agency jurisdictions.</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label">Congressional Oversight</div>
+          <h2 class="section-title" style="font-size:36px;">Legislative <span>Controls</span></h2>
+          <p class="body-text">Congressional oversight is a cornerstone of democratic accountability for the CIA. Two dedicated committees — the Senate Select Committee on Intelligence (SSCI) and the House Permanent Select Committee on Intelligence (HPSCI) — provide robust oversight of all intelligence activities.</p>
+          <p class="body-text" style="margin-top:16px;">The CIA Director and other senior officials regularly testify before these committees, both in open and closed sessions. The Agency provides classified briefings on sensitive programs and operations as required by law and tradition.</p>
+          <div style="margin-top:28px;">
+            <div class="card card-red" style="margin-bottom:12px;"><h4>Senate Select Committee on Intelligence (SSCI)</h4><p>Provides oversight of the CIA's budget, programs, and activities. Reviews and authorizes intelligence authorization bills. Receives notifications of covert action findings.</p></div>
+            <div class="card card-red" style="margin-bottom:12px;"><h4>House Permanent Select Committee on Intelligence (HPSCI)</h4><p>Exercises jurisdiction over the CIA in the House of Representatives. Shares oversight responsibilities with SSCI on the annual intelligence authorization bill.</p></div>
+            <div class="card card-red"><h4>Appropriations Subcommittees</h4><p>The Defense Appropriations subcommittees in both chambers control the CIA's budget appropriations, providing a second layer of congressional financial oversight.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:60px;">
+        <div class="section-label">Internal Accountability</div>
+        <h2 class="section-title" style="font-size:36px;">Internal <span>Mechanisms</span></h2>
+        <div class="g3" style="margin-top:32px;">
+          <div class="card"><div class="tag">Internal</div><h3>Inspector General</h3><p>The CIA's independent IG conducts investigations, audits, and inspections of CIA programs and activities. Reports findings to the Director and to Congress. Operates independently from CIA management.</p></div>
+          <div class="card"><div class="tag">Internal</div><h3>Office of General Counsel</h3><p>Reviews proposed activities for legal compliance before execution. Provides binding legal guidance on covert action, collection activities, personnel matters, and procurement. Advises on compliance with the Constitution, statutes, and executive orders.</p></div>
+          <div class="card"><div class="tag">Internal</div><h3>Privacy & Civil Liberties</h3><p>The CIA's privacy officer ensures that intelligence activities respect the civil liberties and privacy rights of U.S. persons, in accordance with Executive Order 12333 and applicable law.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     INTELLIGENCE / WHAT WE DO
+═══════════════════════════════════════════════ -->
+<div id="page-intelligence" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Intelligence Operations</div>
+      <h2>What <em>We Do</em></h2>
+      <p class="hero-sub">A comprehensive overview of CIA intelligence activities and capabilities.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / What We Do</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">Intelligence Disciplines</div>
+      <h2 class="section-title">Collection <span>Methods</span></h2>
+      <p class="body-text" style="max-width:700px;margin-bottom:40px;">The CIA collects intelligence using a range of methods and disciplines. Each collection method has unique strengths and limitations, and experienced intelligence officers integrate multiple collection streams to produce comprehensive assessments.</p>
+      <div class="g2" style="gap:16px;">
+        <div class="card card-gold">
+          <div class="tag">HUMINT</div>
+          <h3>Human Intelligence</h3>
+          <p>The oldest form of intelligence collection. CIA case officers recruit and handle human sources — individuals with access to information about adversary governments, terrorist organizations, weapons programs, and other matters of national security concern. HUMINT provides unique access to intentions and plans that technical collection cannot reach.</p>
+        </div>
+        <div class="card card-gold">
+          <div class="tag">SIGINT</div>
+          <h3>Signals Intelligence</h3>
+          <p>Collection of intelligence from electronic signals and systems — including communications intelligence (COMINT), electronic intelligence (ELINT), and foreign instrumentation signals intelligence (FISINT). Coordinated with the National Security Agency, which serves as the national manager for SIGINT.</p>
+        </div>
+        <div class="card card-gold">
+          <div class="tag">GEOINT</div>
+          <h3>Geospatial Intelligence</h3>
+          <p>Analysis and exploitation of imagery and geospatial information. The CIA works with the National Geospatial-Intelligence Agency (NGA) to exploit satellite and aerial imagery for intelligence production, military support, and threat assessment.</p>
+        </div>
+        <div class="card card-gold">
+          <div class="tag">OSINT</div>
+          <h3>Open-Source Intelligence</h3>
+          <p>Collection and analysis of publicly available information — news media, academic publications, social media, and government data. The CIA's Open Source Enterprise (OSE) manages OSINT activities and produces the World Factbook, one of the most widely used reference publications in the world.</p>
+        </div>
+        <div class="card card-gold">
+          <div class="tag">CYBINT</div>
+          <h3>Cyber Intelligence</h3>
+          <p>Collection of intelligence from and about cyberspace, including the activities of foreign government hackers, criminal networks, and terrorist groups operating online. The Directorate of Digital Innovation leads CIA efforts in this domain.</p>
+        </div>
+        <div class="card card-gold">
+          <div class="tag">MASINT</div>
+          <h3>Measurement & Signature Intelligence</h3>
+          <p>Collection of intelligence using specialized technical sensors that measure and record physical phenomena — including nuclear, chemical, biological, optical, acoustic, and radiofrequency signatures — to characterize targets and detect threats.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band band-deep">
+    <div class="container">
+      <div class="section-label">Finished Intelligence</div>
+      <h2 class="section-title">Intelligence <span>Products</span></h2>
+      <p class="body-text" style="max-width:700px;margin-bottom:40px;">The CIA produces a range of finished intelligence products tailored to the needs of different consumers — from the President to military commanders to foreign policy analysts.</p>
+      <div class="g3" style="gap:16px;">
+        <div class="card">
+          <div class="tag">Daily</div>
+          <h3>President's Daily Brief</h3>
+          <p>The PDB is the most sensitive intelligence document in the U.S. government. Produced daily by CIA analysts and delivered to the President and a small number of senior officials, it covers the most urgent and significant intelligence developments worldwide.</p>
+        </div>
+        <div class="card">
+          <div class="tag">Weekly</div>
+          <h3>National Intelligence Digest</h3>
+          <p>A broader compilation of current intelligence provided to senior policymakers across the national security community. The NID covers a wider range of topics and reaches a larger audience than the PDB.</p>
+        </div>
+        <div class="card">
+          <div class="tag">Periodic</div>
+          <h3>National Intelligence Estimates</h3>
+          <p>NIEs are the IC's most authoritative written judgments on national security topics. Coordinated across all IC members, they represent the community's best assessment of a particular issue and are designed to inform long-term policy decisions.</p>
+        </div>
+        <div class="card">
+          <div class="tag">Operational</div>
+          <h3>Tactical Intelligence Reports</h3>
+          <p>Time-sensitive intelligence products that support ongoing military and intelligence operations. These include warning intelligence, targeting support, and operational assessments tailored to the needs of combatant commanders.</p>
+        </div>
+        <div class="card">
+          <div class="tag">Research</div>
+          <h3>Intelligence Assessments</h3>
+          <p>In-depth analytical papers that examine a particular topic in depth. These papers support longer-term policy planning and provide context for current developments.</p>
+        </div>
+        <div class="card">
+          <div class="tag">Reference</div>
+          <h3>World Factbook & Atlas</h3>
+          <p>The CIA's flagship open-source reference publication, providing detailed information on the history, geography, government, economy, and people of 266 world entities. Available to the public online.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     DIVISIONS / DIRECTORATES
+═══════════════════════════════════════════════ -->
+<div id="page-divisions" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Organization</div>
+      <h2>Directorates &amp;<br><em>Mission Centers</em></h2>
+      <p class="hero-sub">The organizational structure of the Central Intelligence Agency.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / Directorates</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">The Five Directorates</div>
+      <h2 class="section-title">How We're <span>Organized</span></h2>
+      <p class="body-text" style="max-width:700px;margin-bottom:8px;">The CIA is organized into five directorates and several mission centers. Each directorate is led by a director who reports to the CIA Director. Mission centers cut across directorate boundaries to integrate collection, analysis, and operations against specific threats.</p>
+      <div class="div-grid">
+        <div class="div-item"><div class="div-abbr">DO</div><h3>Directorate of Operations</h3><p>The National Clandestine Service — the human intelligence arm of the CIA. Case officers build and manage networks of sources in foreign countries, collecting intelligence on the intentions and capabilities of adversaries. The DO also conducts covert action programs authorized by the President. Stations and bases around the world are managed by the DO.</p></div>
+        <div class="div-item"><div class="div-abbr">DA</div><h3>Directorate of Analysis</h3><p>The all-source analytical workforce that produces finished intelligence for senior policymakers. DA analysts cover every region of the world and every major functional issue — from counterterrorism to economic intelligence to weapons of mass destruction. The DA prepares the President's Daily Brief and coordinates National Intelligence Estimates across the IC.</p></div>
+        <div class="div-item"><div class="div-abbr">DS&T</div><h3>Directorate of Science & Technology</h3><p>Engineers, scientists, and technologists who develop the collection systems and analytical tools that give the U.S. intelligence advantages over adversaries. The DS&T created some of the most significant technical intelligence systems in history, including the U-2 reconnaissance aircraft and early satellite imagery systems. Today it focuses on advanced sensors, data analytics, and emerging technologies.</p></div>
+        <div class="div-item"><div class="div-abbr">DS</div><h3>Directorate of Support</h3><p>The administrative backbone of the CIA — providing logistics, security, finance, human resources, medical support, facilities management, and all other functions that enable the Agency's mission. Support officers are embedded in CIA stations around the world, providing essential services to officers operating in challenging environments.</p></div>
+        <div class="div-item"><div class="div-abbr">DDI</div><h3>Directorate of Digital Innovation</h3><p>Established in 2015, the DDI is the newest of the CIA's directorates. It accelerates the integration of cutting-edge digital and cyber capabilities across all CIA activities. The DDI is responsible for IT infrastructure, cybersecurity, data analytics, cloud computing, and the application of artificial intelligence to intelligence challenges.</p></div>
+        <div class="div-item"><div class="div-abbr">MC</div><h3>Mission Centers</h3><p>Mission Centers integrate collection, analysis, and operations against specific threats or geographic areas, cutting across directorate boundaries. Major Mission Centers include the Counterterrorism Center (CTC), the Counterproliferation Center (CPC), the Counterintelligence Mission Center (CIMC), and regional mission centers covering major geographic areas of interest.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     INTELLIGENCE CYCLE
+═══════════════════════════════════════════════ -->
+<div id="page-cycle" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Process</div>
+      <h2>The Intelligence <em>Cycle</em></h2>
+      <p class="hero-sub">How raw information becomes finished intelligence that informs national security decisions.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / Intelligence Cycle</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">Six Phases</div>
+      <h2 class="section-title">From <span>Collection</span> to Decision</h2>
+      <p class="body-text" style="max-width:700px;">The intelligence cycle is the process by which information is acquired, converted into intelligence, and made available to policymakers. It is an ongoing, iterative process — the output of one cycle becomes an input for the next.</p>
+      <div class="cycle-grid">
+        <div class="cycle-item"><div class="cycle-num">01</div><div class="tag">Phase I</div><h3>Planning & Direction</h3><p>Senior policymakers identify intelligence needs. The National Intelligence Priorities Framework (NIPF), approved by the President, guides what intelligence is collected. The CIA Director works with the DNI to translate policy needs into collection and analytical requirements.</p></div>
+        <div class="cycle-item"><div class="cycle-num">02</div><div class="tag">Phase II</div><h3>Collection</h3><p>Intelligence is gathered from human sources, technical collection systems (SIGINT, GEOINT, MASINT), and open sources. The CIA coordinates human intelligence collection globally and manages collection from unique technical systems developed by the DS&T.</p></div>
+        <div class="cycle-item"><div class="cycle-num">03</div><div class="tag">Phase III</div><h3>Processing</h3><p>Raw data is converted into usable form. This includes translation of foreign-language materials, decryption of intercepted communications, processing of imagery, and conversion of technical sensor data into interpretable formats. Much of this work is automated using advanced analytical tools.</p></div>
+        <div class="cycle-item"><div class="cycle-num">04</div><div class="tag">Phase IV</div><h3>All-Source Analysis</h3><p>Analysts from the DA integrate information from all collection disciplines to assess its significance, evaluate its reliability, and integrate it into a coherent picture. Analysts apply structured analytical techniques to minimize cognitive biases and produce objective assessments.</p></div>
+        <div class="cycle-item"><div class="cycle-num">05</div><div class="tag">Phase V</div><h3>Dissemination</h3><p>Finished intelligence is delivered to policymakers, military commanders, and other consumers through classified publications, briefings, and secure electronic systems. The PDB is delivered to the President daily; other products reach a broader senior-level audience.</p></div>
+        <div class="cycle-item"><div class="cycle-num">06</div><div class="tag">Phase VI</div><h3>Feedback & Evaluation</h3><p>Consumers evaluate intelligence products and provide feedback to guide future collection and analysis. This feedback loop allows the Intelligence Community to continuously refine its priorities, improve analytical tradecraft, and better serve the needs of policymakers.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     HISTORY PAGE
+═══════════════════════════════════════════════ -->
+<div id="page-history" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Institutional Memory</div>
+      <h2>History of the <em>Agency</em></h2>
+      <p class="hero-sub">Seven decades of service to the nation, from the Cold War to the digital age.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / History</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">From OSS to CIA</div>
+      <h2 class="section-title">Origins of <span>American Intelligence</span></h2>
+      <div class="g-6040 align-start">
+        <div>
+          <p class="body-text">American foreign intelligence traces its origins to the Revolutionary War, when General George Washington employed a network of spies to gather information on British forces. However, the United States did not establish a permanent peacetime intelligence agency until after World War II.</p>
+          <p class="body-text" style="margin-top:16px;">During World War II, President Franklin D. Roosevelt established the Office of Strategic Services (OSS) in 1942 under General William "Wild Bill" Donovan. The OSS conducted espionage, covert operations, and propaganda behind enemy lines in Europe and Asia. Though dissolved at war's end, the OSS laid the institutional and cultural foundations for the CIA.</p>
+          <p class="body-text" style="margin-top:16px;">The National Security Act of 1947, signed by President Harry S. Truman on September 18, 1947, formally established the Central Intelligence Agency. The Act created a unified national security apparatus — including the CIA, the National Security Council, and the position of Secretary of Defense — to coordinate the nation's response to the emerging Cold War threat.</p>
+        </div>
+        <div>
+          <div class="card card-top-gold">
+            <div class="tag">Predecessor</div>
+            <h3>Office of Strategic Services (OSS)</h3>
+            <p>Established 1942 by President Roosevelt under Gen. William Donovan. Conducted espionage, sabotage, and special operations in World War II. Dissolved October 1, 1945. Many OSS veterans formed the nucleus of the CIA.</p>
+          </div>
+          <div class="card card-top-gold" style="margin-top:12px;">
+            <div class="tag">Transition</div>
+            <h3>Central Intelligence Group (CIG)</h3>
+            <p>Interim organization established by President Truman in January 1946 to coordinate intelligence activities pending permanent legislation. The CIG was folded into the CIA upon the Agency's founding in September 1947.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-year">1947</div><h3>National Security Act — CIA Founded</h3><p>President Truman signs the National Security Act on September 18, formally establishing the CIA. Rear Admiral Roscoe Hillenkoetter is appointed as the first Director of Central Intelligence.</p></div>
+        <div class="tl-item"><div class="tl-year">1950</div><h3>Korean War Intelligence</h3><p>The CIA faces its first major operational test as North Korea invades South Korea. The Agency expands rapidly, developing its analytical and clandestine capabilities. The war exposes early weaknesses in collection and warning intelligence.</p></div>
+        <div class="tl-item"><div class="tl-year">1953</div><h3>Operation AJAX / BOOT</h3><p>Working with British intelligence (MI6), the CIA conducts Operation AJAX to restore Shah Mohammad Reza Pahlavi to the Iranian throne after Prime Minister Mohammad Mosaddegh nationalizes the Anglo-Iranian Oil Company. The operation succeeds but leaves a legacy of anti-American sentiment.</p></div>
+        <div class="tl-item"><div class="tl-year">1956</div><h3>U-2 Overflights of the USSR Begin</h3><p>The CIA's U-2 reconnaissance aircraft begins overflights of the Soviet Union, providing unprecedented imagery intelligence on Soviet military capabilities. When Francis Gary Powers is shot down on May 1, 1960, the incident creates a major diplomatic crisis with the USSR.</p></div>
+        <div class="tl-item"><div class="tl-year">1961</div><h3>Bay of Pigs Invasion</h3><p>A CIA-trained paramilitary force of Cuban exiles (Brigade 2506) attempts to invade Cuba and overthrow Fidel Castro at the Bay of Pigs. The operation fails catastrophically. President Kennedy publicly takes responsibility. An internal IG investigation reveals profound planning and execution failures.</p></div>
+        <div class="tl-item"><div class="tl-year">1962</div><h3>Cuban Missile Crisis</h3><p>CIA imagery analysts identify Soviet ballistic missiles in Cuba on October 14, 1962. President Kennedy is briefed on the discovery, triggering a 13-day standoff with the Soviet Union. CIA intelligence is central to the resolution of the most dangerous nuclear confrontation in history.</p></div>
+        <div class="tl-item"><div class="tl-year">1975</div><h3>Church & Pike Committee Investigations</h3><p>Congressional investigations led by Sen. Frank Church and Rep. Otis Pike expose CIA activities including assassination plots against foreign leaders, domestic surveillance programs (COINTELPRO, Operation CHAOS), and MKULTRA human experimentation. The resulting reforms include the Hughes-Ryan Amendment, requiring presidential findings for covert action, and the establishment of permanent intelligence oversight committees.</p></div>
+        <div class="tl-item"><div class="tl-year">1986</div><h3>Iran-Contra Affair</h3><p>A covert program to sell arms to Iran and divert proceeds to Nicaraguan Contra rebels is exposed. CIA Director William Casey dies before he can be called to testify. The affair triggers further reforms to covert action oversight and congressional notification requirements.</p></div>
+        <div class="tl-item"><div class="tl-year">1994</div><h3>Aldrich Ames Arrested</h3><p>CIA officer Aldrich Ames is arrested on espionage charges. Over nearly a decade, Ames had provided the KGB with the identities of virtually every CIA asset in the Soviet Union, leading to the death or imprisonment of ten intelligence assets. The case triggers a sweeping review of CIA security practices.</p></div>
+        <div class="tl-item"><div class="tl-year">2001</div><h3>September 11 & Global War on Terror</h3><p>CIA officers are on the ground in Afghanistan within weeks of the September 11 attacks, working with Northern Alliance forces and supporting the initial military campaign. The post-9/11 era transforms the CIA, with massive expansion of counterterrorism programs, enhanced interrogation (later discontinued), and the establishment of the Counterterrorism Center as the Agency's largest operational entity.</p></div>
+        <div class="tl-item"><div class="tl-year">2004</div><h3>Intelligence Reform Act</h3><p>The Intelligence Reform and Terrorism Prevention Act creates the Director of National Intelligence, shifting some authorities away from the CIA Director. The CIA reorganizes, creating new mission centers to better integrate collection and analysis.</p></div>
+        <div class="tl-item"><div class="tl-year">2011</div><h3>Operation Neptune Spear</h3><p>Years of CIA intelligence work, including analysis of communications patterns and courier networks, lead to the identification of Osama bin Laden's compound in Abbottabad, Pakistan. On May 2, 2011, U.S. Navy SEALs conduct the raid that kills bin Laden, ending a decade-long manhunt.</p></div>
+        <div class="tl-item"><div class="tl-year">2015</div><h3>Directorate of Digital Innovation Established</h3><p>CIA Director John Brennan establishes the Directorate of Digital Innovation — the CIA's first new directorate in 52 years. The DDI signals the Agency's commitment to integrating digital technologies, big data analytics, and cyber capabilities across all mission areas.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     DIRECTORS OF THE CIA
+═══════════════════════════════════════════════ -->
+<div id="page-directors" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Historical Record</div>
+      <h2>Directors of the <em>CIA</em></h2>
+      <p class="hero-sub">Every man and woman who has led the Central Intelligence Agency.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / <span onclick="showPage('history')">History</span> / Directors</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">1947 — Present</div>
+      <h2 class="section-title">All <span>Directors</span></h2>
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Name</th><th>Tenure</th><th>Appointing President</th><th>Background</th></tr></thead>
+        <tbody>
+          <tr><td>01</td><td><strong>Roscoe H. Hillenkoetter</strong><br>Rear Admiral, USN</td><td>1947 – 1950</td><td>Truman</td><td>Naval Intelligence officer; first DCI to brief the President daily</td></tr>
+          <tr><td>02</td><td><strong>Walter Bedell Smith</strong><br>General, USA</td><td>1950 – 1953</td><td>Truman</td><td>Former Chief of Staff to Gen. Eisenhower; reorganized CIA's analytical arm</td></tr>
+          <tr><td>03</td><td><strong>Allen W. Dulles</strong><br>Civilian</td><td>1953 – 1961</td><td>Eisenhower</td><td>OSS veteran; longest-serving DCI; oversaw U-2 program and Bay of Pigs</td></tr>
+          <tr><td>04</td><td><strong>John A. McCone</strong><br>Civilian</td><td>1961 – 1965</td><td>Kennedy/Johnson</td><td>Businessman; correctly assessed Soviet missiles in Cuba in 1962</td></tr>
+          <tr><td>05</td><td><strong>William F. Raborn Jr.</strong><br>Vice Admiral, USN</td><td>1965 – 1966</td><td>Johnson</td><td>Oversaw Polaris missile program; short and tumultuous tenure</td></tr>
+          <tr><td>06</td><td><strong>Richard Helms</strong><br>Civilian</td><td>1966 – 1973</td><td>Johnson/Nixon</td><td>Career CIA officer; only DCI to rise from the clandestine ranks</td></tr>
+          <tr><td>07</td><td><strong>James R. Schlesinger</strong><br>Civilian</td><td>1973</td><td>Nixon</td><td>Commissioned "Family Jewels" report; later became Secretary of Defense</td></tr>
+          <tr><td>08</td><td><strong>William E. Colby</strong><br>Civilian</td><td>1973 – 1976</td><td>Nixon/Ford</td><td>Career CIA officer; cooperated with Church Committee, releasing classified documents</td></tr>
+          <tr><td>09</td><td><strong>George H.W. Bush</strong><br>Civilian</td><td>1976 – 1977</td><td>Ford</td><td>Future U.S. President; improved CIA's relationship with Congress post-Church</td></tr>
+          <tr><td>10</td><td><strong>Stansfield Turner</strong><br>Admiral, USN</td><td>1977 – 1981</td><td>Carter</td><td>Controversial restructuring; reduced HUMINT workforce, expanded technical collection</td></tr>
+          <tr><td>11</td><td><strong>William J. Casey</strong><br>Civilian</td><td>1981 – 1987</td><td>Reagan</td><td>OSS veteran; aggressive expansion of covert action; Iran-Contra central figure; died in office</td></tr>
+          <tr><td>12</td><td><strong>William H. Webster</strong><br>Civilian / Judge</td><td>1987 – 1991</td><td>Reagan/Bush</td><td>Former FBI Director; restored CIA's reputation after Iran-Contra</td></tr>
+          <tr><td>13</td><td><strong>Robert M. Gates</strong><br>Civilian</td><td>1991 – 1993</td><td>Bush</td><td>Career analyst; first CIA officer from analytical ranks to become DCI</td></tr>
+          <tr><td>14</td><td><strong>R. James Woolsey Jr.</strong><br>Civilian</td><td>1993 – 1995</td><td>Clinton</td><td>Attorney; oversaw transition from Cold War to post-Soviet intelligence priorities</td></tr>
+          <tr><td>15</td><td><strong>John M. Deutch</strong><br>Civilian</td><td>1995 – 1996</td><td>Clinton</td><td>MIT chemist; difficult relationship with CIA workforce; security scandal</td></tr>
+          <tr><td>16</td><td><strong>George J. Tenet</strong><br>Civilian</td><td>1997 – 2004</td><td>Clinton/Bush</td><td>Longest post-Cold War tenure; led CIA through 9/11 and WMD Iraq controversy</td></tr>
+          <tr><td>17</td><td><strong>Porter J. Goss</strong><br>Civilian</td><td>2004 – 2006</td><td>Bush</td><td>Former CIA officer and HPSCI Chairman; oversaw post-IRTPA reorganization</td></tr>
+          <tr><td>18</td><td><strong>Michael V. Hayden</strong><br>General, USAF</td><td>2006 – 2009</td><td>Bush</td><td>Former NSA Director; presided over controversial interrogation program review</td></tr>
+          <tr><td>19</td><td><strong>Leon E. Panetta</strong><br>Civilian</td><td>2009 – 2011</td><td>Obama</td><td>Former White House Chief of Staff; oversaw the Bin Laden operation</td></tr>
+          <tr><td>20</td><td><strong>David H. Petraeus</strong><br>General (Ret.), USA</td><td>2011 – 2012</td><td>Obama</td><td>Former CENTCOM Commander; resigned after classified information disclosure</td></tr>
+          <tr><td>21</td><td><strong>John O. Brennan</strong><br>Civilian</td><td>2013 – 2017</td><td>Obama</td><td>Career CIA officer; created DDI; expanded counterterrorism drone program</td></tr>
+          <tr><td>22</td><td><strong>Mike Pompeo</strong><br>Civilian</td><td>2017 – 2018</td><td>Trump</td><td>Former U.S. Representative; later Secretary of State</td></tr>
+          <tr><td>23</td><td><strong>Gina Haspel</strong><br>Civilian</td><td>2018 – 2021</td><td>Trump</td><td>First woman to serve as CIA Director; 33-year career clandestine officer</td></tr>
+          <tr><td>24</td><td><strong>William J. Burns</strong><br>Civilian</td><td>2021 – 2025</td><td>Biden</td><td>Former career diplomat and Deputy Secretary of State</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     CAREERS OVERVIEW
+═══════════════════════════════════════════════ -->
+<div id="page-careers" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Join the Agency</div>
+      <h2>Careers at<br>the <em>CIA</em></h2>
+      <p class="hero-sub">Extraordinary careers for extraordinary people. Serve your country in ways most will never imagine.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / Careers</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="g-6040 align-start">
+        <div>
+          <div class="section-label">Overview</div>
+          <h2 class="section-title">Why Work at the <span>CIA</span></h2>
+          <p class="body-text">The CIA employs people from virtually every professional background — united by a commitment to serving their country and a tolerance for working in conditions of extraordinary secrecy. Whether your expertise is in languages, engineering, finance, law, medicine, psychology, or data science, there is likely a role at the CIA where your skills can contribute to the nation's security.</p>
+          <p class="body-text" style="margin-top:16px;">CIA employees work at our headquarters in Langley, Virginia, at facilities across the United States, and at overseas stations and bases. Many positions require significant overseas deployment. All positions require a Top Secret/SCI security clearance.</p>
+          <p class="body-text" style="margin-top:16px;">The application process is thorough — typically six months to a year — including a background investigation, polygraph examination, medical evaluation, and psychological assessment. The rigor reflects the trust the Agency places in its employees and the sensitivity of the information they handle.</p>
+        </div>
+        <div>
+          <div class="section-label">Requirements</div>
+          <div class="card card-red" style="margin-bottom:12px;"><h4>U.S. Citizenship</h4><p>All applicants must be U.S. citizens. Dual citizenship is evaluated on a case-by-case basis and may disqualify candidates in certain roles.</p></div>
+          <div class="card card-red" style="margin-bottom:12px;"><h4>Security Clearance</h4><p>All employees must obtain and maintain a Top Secret/SCI security clearance. Prior drug use, financial problems, and foreign contacts may affect eligibility.</p></div>
+          <div class="card card-red" style="margin-bottom:12px;"><h4>Polygraph Examination</h4><p>All new employees undergo a polygraph examination as part of the pre-employment process. Continued employment requires periodic reinvestigation.</p></div>
+          <div class="card card-red"><h4>Medical Evaluation</h4><p>A comprehensive medical evaluation is required. Standards vary by position; overseas and operational positions have more stringent requirements.</p></div>
+        </div>
+      </div>
+
+      <div style="margin-top:60px;">
+        <div class="section-label">Benefits</div>
+        <h2 class="section-title" style="font-size:36px;">Compensation &amp; <span>Benefits</span></h2>
+        <div class="g4" style="margin-top:32px;">
+          <div class="card"><h4>Competitive Salary</h4><p>CIA salaries are competitive with the private sector and follow the GS pay scale for most positions, with additional pay for overseas service and hazardous duty.</p></div>
+          <div class="card"><h4>Health & Dental</h4><p>Comprehensive Federal Employees Health Benefits (FEHB) plans covering medical, dental, and vision, with Agency contributions to premiums.</p></div>
+          <div class="card"><h4>Retirement</h4><p>Federal Employees Retirement System (FERS) with Agency matching for the Thrift Savings Plan (TSP), equivalent to a 401(k).</p></div>
+          <div class="card"><h4>Work-Life Balance</h4><p>Generous leave policies, flexible work arrangements where mission permits, childcare subsidies, and wellness programs.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     CAREER TRACKS
+═══════════════════════════════════════════════ -->
+<div id="page-careers-tracks" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Career Paths</div>
+      <h2>Career <em>Tracks</em></h2>
+      <p class="hero-sub">Find the role that matches your skills, education, and mission.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / <span onclick="showPage('careers')">Careers</span> / Tracks</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">Professional Tracks</div>
+      <h2 class="section-title">Eight Career <span>Paths</span></h2>
+      <div class="g2" style="gap:16px;margin-top:40px;">
+        <div class="track"><div class="track-code">TRACK // 01 · OPERATIONS</div><h3>Clandestine Service Officer</h3><p>The heart of the CIA's human intelligence mission. Operations Officers are trained in tradecraft, foreign languages, and interpersonal skills. They build and manage relationships with foreign nationals who provide intelligence on matters of national security concern. Extensive overseas deployment required.</p><ul><li>Foreign language proficiency strongly preferred</li><li>Bachelor's degree minimum; advanced degree beneficial</li><li>Extensive overseas travel and deployment</li><li>Exceptional interpersonal and communication skills</li><li>Ability to work under cover and maintain a cover identity</li><li>Physical fitness and adaptability</li></ul></div>
+        <div class="track"><div class="track-code">TRACK // 02 · ANALYSIS</div><h3>Intelligence Analyst</h3><p>All-source analysts synthesize information from multiple collection disciplines to produce finished intelligence for the President, Cabinet, and senior policymakers. Analysts develop deep expertise in a region, country, or functional issue — from counterterrorism to economics to weapons programs.</p><ul><li>Bachelor's or advanced degree in relevant field</li><li>Strong research and writing skills</li><li>Regional, functional, or technical expertise</li><li>Foreign language proficiency a plus</li><li>Critical thinking and structured analytical techniques</li><li>Ability to communicate complex issues clearly</li></ul></div>
+        <div class="track"><div class="track-code">TRACK // 03 · SCIENCE & TECHNOLOGY</div><h3>Engineer / Scientist</h3><p>Engineers and scientists in the Directorate of Science & Technology develop the collection systems, sensors, processing tools, and analytical capabilities that provide intelligence advantages. Disciplines include aerospace engineering, electrical engineering, computer science, physics, chemistry, and biology.</p><ul><li>Bachelor's degree in STEM required; advanced degree preferred</li><li>Relevant technical expertise and research experience</li><li>Ability to apply engineering to intelligence problems</li><li>Security engineering and systems integration experience beneficial</li><li>Innovative thinking and problem-solving orientation</li></ul></div>
+        <div class="track"><div class="track-code">TRACK // 04 · DIGITAL INNOVATION</div><h3>Data Scientist / Cyber Officer</h3><p>Data scientists, software engineers, cybersecurity specialists, and AI/ML practitioners in the Directorate of Digital Innovation develop and deploy cutting-edge digital capabilities to collect intelligence, protect CIA systems, and exploit adversary networks.</p><ul><li>Computer science, data science, or cybersecurity background</li><li>Experience with machine learning, AI, or advanced analytics</li><li>Software development and systems engineering skills</li><li>Cybersecurity certifications or experience beneficial</li><li>Cloud computing and big data experience valued</li></ul></div>
+        <div class="track"><div class="track-code">TRACK // 05 · LANGUAGE</div><h3>Foreign Language Officer</h3><p>The CIA needs officers with proficiency in critical foreign languages — Arabic, Mandarin Chinese, Farsi, Russian, Korean, Pashto, Dari, Urdu, and others. Language officers work as translators, interpreters, and intelligence officers leveraging their linguistic skills in collection and analysis.</p><ul><li>Native or near-native proficiency in a critical language</li><li>U.S. citizenship (foreign-born applicants evaluated carefully)</li><li>Cultural understanding and area expertise</li><li>Translation and interpretation skills</li><li>Intelligence analysis skills highly valued</li></ul></div>
+        <div class="track"><div class="track-code">TRACK // 06 · SUPPORT</div><h3>Mission Support Officer</h3><p>Mission support officers work in finance, human resources, logistics, security, facilities, legal, and other enabling functions. They ensure CIA operations run effectively at headquarters and in overseas stations.</p><ul><li>Professional degree or experience in relevant field</li><li>CPA, legal, HR, or logistics background beneficial</li><li>Strong organizational and administrative skills</li><li>Ability to work in overseas or challenging environments</li><li>Customer service orientation and team focus</li></ul></div>
+        <div class="track"><div class="track-code">TRACK // 07 · MEDICAL</div><h3>Medical Officer / Psychologist</h3><p>Physicians, nurses, psychologists, and other healthcare professionals provide medical services to CIA employees worldwide. Medical officers deploy to overseas stations, assess the physical and psychological readiness of employees, and support special operations.</p><ul><li>Medical degree (MD or DO) or advanced nursing/psychology degree</li><li>Board certification in relevant specialty</li><li>Willingness to serve in austere or hazardous environments</li><li>Experience with occupational or travel medicine valued</li><li>Psychological assessment experience for psychologists</li></ul></div>
+        <div class="track"><div class="track-code">TRACK // 08 · LEADERSHIP</div><h3>Executive Development Program</h3><p>The CIA's executive development programs identify and nurture future leaders across all career tracks. Selected mid-career employees receive leadership training, interagency rotations, and targeted assignments to prepare them for senior positions within the Agency.</p><ul><li>Strong performance record in current track</li><li>Leadership potential and executive presence</li><li>Broad understanding of CIA mission and IC</li><li>Demonstrated ability to lead teams and projects</li><li>Cross-functional experience valued</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     STUDENTS & INTERNS
+═══════════════════════════════════════════════ -->
+<div id="page-careers-students" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Student Programs</div>
+      <h2>Students &amp;<br><em>Interns</em></h2>
+      <p class="hero-sub">Start your intelligence career before you finish your degree.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / <span onclick="showPage('careers')">Careers</span> / Students</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">Student Programs</div>
+      <h2 class="section-title">Programs for <span>Tomorrow's Officers</span></h2>
+      <div class="g3" style="margin-top:40px;">
+        <div class="card card-top-gold">
+          <div class="tag">Undergraduate</div>
+          <h3>Undergraduate Scholar Program</h3>
+          <p>A competitive program for exceptional undergraduates who work at CIA during summer breaks and full-time after graduation. Scholars receive tuition assistance (up to $18,000/year) in exchange for a service commitment. Designed for students in their freshman or sophomore year.</p>
+          <ul class="styled-list" style="margin-top:14px;">
+            <li>Minimum 3.0 GPA</li>
+            <li>Full-time summer employment</li>
+            <li>Tuition assistance provided</li>
+            <li>Mentorship and career development</li>
+          </ul>
+        </div>
+        <div class="card card-top-gold">
+          <div class="tag">Graduate</div>
+          <h3>Graduate Studies Program</h3>
+          <p>For students pursuing advanced degrees in relevant fields — including intelligence studies, international relations, computer science, engineering, foreign languages, and finance. Graduate participants work at CIA part-time during school and full-time in summers.</p>
+          <ul class="styled-list" style="margin-top:14px;">
+            <li>Full-time summer rotations</li>
+            <li>Mentorship from senior officers</li>
+            <li>Exposure to multiple mission areas</li>
+            <li>Commitment to join after graduation</li>
+          </ul>
+        </div>
+        <div class="card card-top-gold">
+          <div class="tag">Internship</div>
+          <h3>Directorate Internships</h3>
+          <p>Paid summer and co-op internships for undergraduate and graduate students in every CIA directorate. Interns work on real intelligence problems alongside experienced officers. Internships often lead to full-time positions upon graduation.</p>
+          <ul class="styled-list" style="margin-top:14px;">
+            <li>Paid positions (GS scale)</li>
+            <li>10–12 week summer program</li>
+            <li>Security clearance provided</li>
+            <li>Multiple disciplines available</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:60px;">
+        <div class="section-label">Application Process</div>
+        <h2 class="section-title" style="font-size:36px;">How to <span>Apply</span></h2>
+        <div class="g4" style="margin-top:32px;">
+          <div class="card"><div class="tag">Step 1</div><h3>Online Application</h3><p>Submit your resume, transcripts, and application materials through the CIA's secure online portal. Ensure all information is accurate — inconsistencies may trigger disqualification.</p></div>
+          <div class="card"><div class="tag">Step 2</div><h3>Initial Review</h3><p>Recruiters review applications for minimum qualifications, clearance eligibility, and mission fit. Selected candidates are contacted for interviews, typically 4–8 weeks after application.</p></div>
+          <div class="card"><div class="tag">Step 3</div><h3>Interviews & Testing</h3><p>Multiple rounds of interviews, including cognitive and personality assessments. Technical candidates may complete skills tests. Language candidates are tested for proficiency.</p></div>
+          <div class="card"><div class="tag">Step 4</div><h3>Background Investigation</h3><p>A thorough investigation of your personal history, including finances, foreign contacts, travel, and lifestyle. The polygraph examination is a key component of this phase.</p></div>
+        </div>
+      </div>
+
+      <div style="margin-top:60px;">
+        <div class="section-label">FAQs</div>
+        <h2 class="section-title" style="font-size:36px;">Frequently Asked <span>Questions</span></h2>
+        <div class="faq-item"><div class="faq-q">Can I tell my family I work for the CIA?</div><div class="faq-a">Yes. CIA employees may acknowledge their employment with the Agency to immediate family and close friends. However, they may not disclose the specific nature of their work, classified programs they support, or the identities of colleagues.</div></div>
+        <div class="faq-item"><div class="faq-q">How long does the security clearance process take?</div><div class="faq-a">The process typically takes six months to a year from application to employment. The timeline depends on the complexity of your background, responsiveness of references, and investigative workload. International travel, foreign contacts, and dual citizenship can add time.</div></div>
+        <div class="faq-item"><div class="faq-q">Does prior marijuana use disqualify me?</div><div class="faq-a">Not necessarily. The CIA considers drug use on a case-by-case basis, looking at recency, frequency, and circumstances. Applicants must be honest about prior use. Recent or heavy use is more likely to be disqualifying than occasional use in the distant past.</div></div>
+        <div class="faq-item"><div class="faq-q">Can I have a foreign spouse or partner?</div><div class="faq-a">Foreign national spouses, partners, or family members are evaluated as part of the security clearance process. Depending on the nationality and circumstances, a foreign-national spouse may affect clearance eligibility for certain positions.</div></div>
+        <div class="faq-item"><div class="faq-q">Will I need to move to the Washington, D.C. area?</div><div class="faq-a">Most CIA positions are based at headquarters in Langley, Virginia (McLean, VA, near Washington D.C.). Some positions are located at other domestic facilities. Operational and some support positions require overseas deployment.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     NEWSROOM
+═══════════════════════════════════════════════ -->
+<div id="page-newsroom" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Public Affairs</div>
+      <h2>CIA <em>Newsroom</em></h2>
+      <p class="hero-sub">Press releases, statements, and official communications from the Central Intelligence Agency.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / Newsroom</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">Latest Releases</div>
+      <h2 class="section-title">Press <span>Releases</span></h2>
+      <div class="g-3070" style="margin-top:40px;gap:40px;">
+        <div>
+          <div class="news-card" style="border-top:3px solid var(--gold);margin-bottom:2px;">
+            <div class="category">Director's Statement</div>
+            <h3>Director's Statement on CIA's Role in Countering Foreign Influence Operations</h3>
+            <p>Director's remarks acknowledging the CIA's expanded mission to counter foreign disinformation campaigns targeting U.S. elections and critical infrastructure. The statement outlines coordination with the FBI, DHS, and allied intelligence services.</p>
+            <div class="meta">March 15, 2024 · Office of Public Affairs · UNCLASSIFIED</div>
+          </div>
+          <div class="news-card" style="margin-bottom:2px;">
+            <div class="category">Annual Report</div>
+            <h3>CIA Annual Report to Congress — FY2023</h3>
+            <p>The unclassified summary of the CIA's annual report to Congress, covering workforce diversity, equal employment opportunity programs, and information systems security. Detailed budget and operational information remain classified.</p>
+            <div class="meta">February 28, 2024 · Office of Congressional Affairs · UNCLASSIFIED</div>
+          </div>
+          <div class="news-card" style="margin-bottom:2px;">
+            <div class="category">Recognition</div>
+            <h3>CIA Honors Intelligence Officers for Counterterrorism Work</h3>
+            <p>The Director's Award for Excellence is presented to a team of officers whose work disrupted a major terrorist network operating across multiple continents. Identities and operational details remain classified.</p>
+            <div class="meta">January 19, 2024 · Office of Public Affairs · UNCLASSIFIED</div>
+          </div>
+          <div class="news-card" style="margin-bottom:2px;">
+            <div class="category">Technology</div>
+            <h3>CIA Announces Expansion of AI Capabilities in Intelligence Analysis</h3>
+            <p>The Directorate of Digital Innovation announces new artificial intelligence tools to assist analysts in processing large volumes of open-source information, reducing time-to-insight for key analytical products.</p>
+            <div class="meta">December 5, 2023 · Directorate of Digital Innovation · UNCLASSIFIED</div>
+          </div>
+          <div class="news-card">
+            <div class="category">Congressional Testimony</div>
+            <h3>Director's Testimony Before SSCI on Annual Threat Assessment</h3>
+            <p>Opening statement by the CIA Director before the Senate Select Committee on Intelligence regarding the 2024 Annual Threat Assessment, covering China, Russia, Iran, North Korea, terrorism, and cybersecurity threats.</p>
+            <div class="meta">November 14, 2023 · Office of Congressional Affairs · UNCLASSIFIED</div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label">Categories</div>
+          <div class="card" style="margin-bottom:16px;">
+            <h4>By Category</h4>
+            <ul class="styled-list">
+              <li>Director's Statements & Speeches</li>
+              <li>Congressional Testimony</li>
+              <li>Annual Reports to Congress</li>
+              <li>Technology & Innovation</li>
+              <li>Workforce & Diversity</li>
+              <li>FOIA Releases</li>
+              <li>Awards & Recognition</li>
+              <li>Partner Agency Coordination</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Media Policy</h4>
+            <p>The CIA's Office of Public Affairs is the sole authorized point of contact for media inquiries. The Agency does not confirm or deny specific operational details, the identities of intelligence sources, or classified programs.</p>
+            <p style="margin-top:10px;">All media requests must be submitted in writing. Response times vary based on the nature of the request and the classification review required.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PUBLICATIONS
+═══════════════════════════════════════════════ -->
+<div id="page-publications" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Open Source Products</div>
+      <h2>CIA <em>Publications</em></h2>
+      <p class="hero-sub">Unclassified reports, studies, and reference products from the CIA and the Intelligence Community.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / Publications</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="section-label">Intelligence Community Reports</div>
+      <h2 class="section-title">Key <span>Publications</span></h2>
+      <table class="data-table" style="margin-top:32px;">
+        <thead><tr><th>Date</th><th>Publication</th><th>Classification</th></tr></thead>
+        <tbody>
+          <tr><td>Mar 2024</td><td><strong>Annual Threat Assessment of the U.S. Intelligence Community</strong><br>Director of National Intelligence. Comprehensive assessment of strategic, transnational, and regional threats facing the United States.</td><td><span class="badge badge-green">Unclassified</span></td></tr>
+          <tr><td>Jan 2024</td><td><strong>Foreign Economic Espionage in Cyberspace</strong><br>NCSC report on state-sponsored theft of U.S. intellectual property and trade secrets via cyber intrusions.</td><td><span class="badge badge-green">Unclassified</span></td></tr>
+          <tr><td>Oct 2023</td><td><strong>Worldwide Threat Assessment</strong><br>CIA contribution to the IC-wide threat assessment, focusing on near-peer adversaries and non-state threats.</td><td><span class="badge badge-green">Unclassified</span></td></tr>
+          <tr><td>Sep 2023</td><td><strong>Intelligence Community Annual Statistical Transparency Report</strong><br>ODNI statistical transparency report on legal authorities used for foreign intelligence collection.</td><td><span class="badge badge-green">Unclassified</span></td></tr>
+          <tr><td>Jun 2023</td><td><strong>National Counterterrorism Center: Terrorism Threat Assessment</strong><br>NCTC's annual assessment of terrorist threats to U.S. interests at home and abroad.</td><td><span class="badge badge-green">Unclassified</span></td></tr>
+          <tr><td>Mar 2023</td><td><strong>Assessing Beijing's Power: China's Military, Economic & Technological Rise</strong><br>IC-wide assessment of China's comprehensive national power and strategic intentions.</td><td><span class="badge badge-gold">Partially Released</span></td></tr>
+          <tr><td>Jan 2023</td><td><strong>WMD Acquisition Efforts by State and Non-State Actors</strong><br>Annual counterproliferation assessment covering nuclear, chemical, biological, and radiological threats.</td><td><span class="badge badge-gold">Partially Released</span></td></tr>
+          <tr><td>2022</td><td><strong>Intelligence Community Directive 203: Analytic Standards</strong><br>The IC's authoritative statement on analytic tradecraft standards and the requirements for finished intelligence.</td><td><span class="badge badge-green">Unclassified</span></td></tr>
+          <tr><td>2021</td><td><strong>Global Trends 2040: A More Contested World</strong><br>NIC's flagship long-range assessment of global trends, alternative scenarios, and implications for U.S. national security.</td><td><span class="badge badge-green">Unclassified</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     WORLD FACTBOOK
+═══════════════════════════════════════════════ -->
+<div id="page-worldfactbook" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Open Source Reference</div>
+      <h2>The World <em>Factbook</em></h2>
+      <p class="hero-sub">The CIA's flagship reference publication — authoritative data on 266 countries and territories.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / <span onclick="showPage('newsroom')">Newsroom</span> / World Factbook</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="g-6040 align-start">
+        <div>
+          <div class="section-label">About the Factbook</div>
+          <h2 class="section-title">The World <span>Factbook</span></h2>
+          <p class="body-text">The World Factbook has been produced annually since 1962. It provides basic intelligence on the history, people, government, economy, energy, geography, environment, communications, transportation, military, terrorism, and transnational issues for 266 world entities.</p>
+          <p class="body-text" style="margin-top:16px;">Originally classified, the Factbook was made publicly available in 1975 and is now one of the most widely-used public domain references in the world. It is used by schools, universities, businesses, governments, and international organizations around the globe.</p>
+          <p class="body-text" style="margin-top:16px;">The Factbook is updated continuously throughout the year, with information sourced from a wide range of open-source materials including official government statistics, international organizations, and published demographic data. All information in the Factbook is unclassified and available for public use without restriction.</p>
+          <div class="stats-row" style="margin-top:40px;">
+            <div class="stat"><div class="stat-num">266</div><div class="stat-label">World Entities</div></div>
+            <div class="stat"><div class="stat-num">1962</div><div class="stat-label">First Edition</div></div>
+            <div class="stat"><div class="stat-num">1975</div><div class="stat-label">First Public Release</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label">Contents</div>
+          <div class="card card-gold" style="margin-bottom:12px;"><h4>Geography</h4><p>Location, area, borders, coastline, climate, terrain, natural resources, land use, and environmental issues for every entity.</p></div>
+          <div class="card card-gold" style="margin-bottom:12px;"><h4>People & Society</h4><p>Population, nationality, ethnic groups, languages, religions, demographic profile, age structure, median age, and urbanization.</p></div>
+          <div class="card card-gold" style="margin-bottom:12px;"><h4>Government</h4><p>Country name, government type, capital, administrative divisions, independence, constitution, legal system, and executive/legislative/judicial branches.</p></div>
+          <div class="card card-gold" style="margin-bottom:12px;"><h4>Economy</h4><p>GDP, inflation rate, unemployment, exports, imports, currency, and economic overview for every world entity.</p></div>
+          <div class="card card-gold"><h4>Military & Security</h4><p>Military and security forces, military expenditures, and military service age and obligation data.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     FOIA PAGE
+═══════════════════════════════════════════════ -->
+<div id="page-foia" class="page">
+  <section class="hero hero-sm">
+    <div class="hero-bg-base"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Transparency & Accountability</div>
+      <h2>Freedom of<br><em>Information Act</em></h2>
+      <p class="hero-sub">Submit FOIA requests and access previously released CIA documents through CREST.</p>
+    </div>
+  </section>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><span onclick="showPage('home')">Home</span> / FOIA</div></div>
+
+  <div class="band band-steel">
+    <div class="container">
+      <div class="g-6040 align-start">
+        <div>
+          <div class="section-label">The Freedom of Information Act</div>
+          <h2 class="section-title">FOIA at the <span>CIA</span></h2>
+          <p class="body-text">The Freedom of Information Act (FOIA), 5 U.S.C. § 552, provides the public with the right to request access to records from any federal agency. The CIA's Information Management Services (IMS) processes FOIA and Privacy Act requests for records held by the Agency.</p>
+          <p class="body-text" style="margin-top:16px;">The CIA processes FOIA requests in two queues: a Simple Track for straightforward requests expected to yield fewer than 500 pages, and a Complex Track for requests requiring more extensive searches, review, or classification determinations. Processing times vary widely depending on the complexity and sensitivity of the requested records.</p>
+          <p class="body-text" style="margin-top:16px;">Documents approved for release are added to the CREST (CIA Records Search Tool) database, which provides online access to more than 13 million pages of released CIA records. CREST is searchable by keyword, document date, and document type.</p>
+
+          <div style="margin-top:40px;">
+            <div class="section-label">How to Submit a Request</div>
+            <div class="card card-gold" style="margin-bottom:12px;"><h4>Step 1: Define Your Request</h4><p>Identify the specific records you are requesting. Narrow, specific requests are processed faster than broad requests. Providing dates, names, and document types helps the Agency conduct an efficient search.</p></div>
+            <div class="card card-gold" style="margin-bottom:12px;"><h4>Step 2: Submit in Writing</h4><p>Submit your request in writing to the Information Management Services, CIA, Washington, D.C. 20505, or electronically through the CIA's online FOIA portal. Include your full name, address, and a detailed description of the requested records.</p></div>
+            <div class="card card-gold" style="margin-bottom:12px;"><h4>Step 3: Await Acknowledgment</h4><p>You will receive a written acknowledgment with a case number. Retain this number for tracking purposes. The CIA will notify you of any fees associated with processing your request.</p></div>
+            <div class="card card-gold"><h4>Step 4: Receive a Determination</h4><p>The CIA will provide a written determination granting or denying your request, in full or in part. Denied requests will cite the applicable FOIA exemptions. You may appeal denials to the Agency Release Panel.</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label">FOIA Exemptions</div>
+          <div class="card" style="margin-bottom:16px;">
+            <h4>Applicable Exemptions</h4>
+            <p>The CIA routinely invokes the following FOIA exemptions when withholding information:</p>
+            <ul class="styled-list" style="margin-top:10px;">
+              <li><strong>Exemption 1:</strong> Classified national security information</li>
+              <li><strong>Exemption 3:</strong> Information protected by statute (including the CIA Act of 1949 and the National Security Act)</li>
+              <li><strong>Exemption 5:</strong> Deliberative process privilege and attorney-client communications</li>
+              <li><strong>Exemption 6:</strong> Personal privacy information</li>
+              <li><strong>Exemption 7(C):</strong> Law enforcement records that could constitute an invasion of personal privacy</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>CREST Database</h4>
+            <p>The CIA Records Search Tool (CREST) provides online access to declassified CIA records. The database contains over 13 million pages of documents, including historical intelligence assessments, operational cables, and administrative records.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:60px;">
+        <div class="section-label">Recently Declassified</div>
+        <h2 class="section-title" style="font-size:36px;">Recent <span>Releases</span></h2>
+        <div class="doc-row" style="margin-top:16px;">
+          <div class="doc-date">JAN 1961</div>
+          <div class="doc-info"><h4>Bay of Pigs: Inspector General's Survey of the Cuban Operation</h4><p>Lyman Kirkpatrick's internal IG investigation into the planning and execution failures of Operation Zapata</p></div>
+          <span class="badge badge-green">Declassified</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-date">AUG 1975</div>
+          <div class="doc-info"><h4>The Family Jewels</h4><p>693-page compilation of CIA activities that potentially violated the Agency's charter, compiled at Director Schlesinger's direction</p></div>
+          <span class="badge badge-green">Declassified</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-date">MAY 1963</div>
+          <div class="doc-info"><h4>MKULTRA: Project Documentation Files</h4><p>Surviving documents from the CIA's mind-control research program, including LSD experimentation on unwitting subjects</p></div>
+          <span class="badge badge-green">Declassified</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-date">NOV 1963</div>
+          <div class="doc-info"><h4>Oswald, Lee Harvey — 201 Personality File</h4><p>CIA's pre-assassination file on Lee Harvey Oswald, subject of the Warren Commission investigation</p></div>
+          <span class="badge badge-gold">Partially Released</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-date">MAR 1984</div>
+          <div class="doc-info"><h4>Psychological Operations in Guerrilla Warfare (Contra Manual)</h4><p>Operational manual prepared for the Nicaraguan Contra forces, controversial for content on neutralizing officials</p></div>
+          <span class="badge badge-green">Declassified</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-date">DEC 1963</div>
+          <div class="doc-info"><h4>National Intelligence Estimates: Soviet Strategic Forces, 1963</h4><p>IC assessment of Soviet ICBM and SLBM capabilities in the aftermath of the Cuban Missile Crisis</p></div>
+          <span class="badge badge-green">Declassified</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-date">SEP 2001</div>
+          <div class="doc-info"><h4>Senior Executive Intelligence Brief — 9/11 Aftermath (Selected Pages)</h4><p>Intelligence briefings from the immediate post-September 11 period, with significant redactions maintained</p></div>
+          <span class="badge badge-red">Heavily Redacted</span>
+        </div>
+        <div class="doc-row">
+          <div class="doc-date">DEC 2014</div>
+          <div class="doc-info"><h4>SSCI Study on CIA's Detention and Interrogation Program (Executive Summary)</h4><p>Senate Intelligence Committee's 525-page executive summary of its study on the CIA's post-9/11 enhanced interrogation program</p></div>
+          <span class="badge badge-gold">Partially Released</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">Central Intelligence Agency</div>
+        <p>The CIA is a civilian foreign intelligence service of the United States federal government. We are one of 17 members of the U.S. Intelligence Community and report to the Director of National Intelligence.</p>
+        <p style="margin-top:12px;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;color:var(--gold);">Headquarters: Langley, Virginia, USA</p>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li onclick="showPage('about')">About the CIA</li>
+          <li onclick="showPage('mission')">Mission & Vision</li>
+          <li onclick="showPage('values')">Core Values</li>
+          <li onclick="showPage('leadership')">Leadership</li>
+          <li onclick="showPage('oversight')">Oversight</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Intelligence</h4>
+        <ul>
+          <li onclick="showPage('intelligence')">What We Do</li>
+          <li onclick="showPage('divisions')">Directorates</li>
+          <li onclick="showPage('cycle')">Intel Cycle</li>
+          <li onclick="showPage('history')">History</li>
+          <li onclick="showPage('directors')">Directors</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li onclick="showPage('careers')">Careers</li>
+          <li onclick="showPage('newsroom')">Newsroom</li>
+          <li onclick="showPage('publications')">Publications</li>
+          <li onclick="showPage('worldfactbook')">World Factbook</li>
+          <li onclick="showPage('foia')">FOIA</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Central Intelligence Agency · United States Government · Est. September 18, 1947</p>
+      <p>UNCLASSIFIED // FOR OFFICIAL PUBLIC RELEASE</p>
+    </div>
+  </div>
+</footer>
+
+<div class="class-bar">UNCLASSIFIED // FOR PUBLIC RELEASE // APPROVED FOR OPEN-SOURCE DISTRIBUTION</div>
+
+<script>
+function showPage(id) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show target
+  const target = document.getElementById('page-' + id);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  // Update nav active state
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const pageToNav = {
+    'home': 0,
+    'about': 1, 'mission': 1, 'values': 1, 'leadership': 1, 'oversight': 1,
+    'intelligence': 2, 'divisions': 2, 'cycle': 2,
+    'history': 3, 'directors': 3,
+    'careers': 4, 'careers-tracks': 4, 'careers-students': 4,
+    'newsroom': 5, 'publications': 5, 'worldfactbook': 5,
+    'foia': 6
+  };
+  const navLinks = document.querySelectorAll('.nav-link');
+  const navIdx = pageToNav[id];
+  if (navIdx !== undefined && navLinks[navIdx]) {
+    navLinks[navIdx].classList.add('active');
+  }
+}
+
+// Initialize: show home
+document.addEventListener('DOMContentLoaded', () => showPage('home'));
+</script>
+</body>
+</html>
